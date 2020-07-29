@@ -1,4 +1,4 @@
-package app;
+package privateaccess;
 
 public class Person {
     private String hairColor = "brown";

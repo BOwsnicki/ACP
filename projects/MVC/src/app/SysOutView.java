@@ -1,28 +1,50 @@
 package app;
 
+import java.util.Scanner;
+
 import mvc.Controller;
 import mvc.View;
 
-public class SysOutView extends View {
-	
+class SysOutView extends View {
+	private Scanner in;
+
 	public SysOutView(Controller controller) {
 		super(controller);
+		in = new Scanner(System.in);
 		controller.getModel().addView(this);
-		System.out.println("Not a Frame!");
+	}
+
+	// Simple prompted input for the next guess
+	private String getGuess() {
+		System.out.print("Your guess: ");
+		return in.nextLine();
+	}
+
+	// Transform booleans into a string of t/f
+	private String boolRep(boolean[] b) {
+		String s = "";
+		for (int i = 0; i < b.length; i++) {
+			s += (b[i] ? "t" : "f");
+		}
+		return s;
 	}
 
 	@Override
 	public void notify(Object result) {
-		LingoState state = (LingoState)result;
+		LingoState state = (LingoState) result;
+		System.out.println(boolRep(state.inPlace));
 		System.out.println(state.guess);
-		for (int i = 0; i < 5; i++) {
-			System.out.print(state.inPlace[i]);
+		System.out.println(boolRep(state.outOfPlace));
+
+		if (!state.solved) {
+			UpdateStatus s = null;
+			do {
+				String guess = getGuess();
+				s = (UpdateStatus) controller.update(guess);
+				System.out.println(s);
+			} while (s != UpdateStatus.OK);
+		} else {
+			System.out.println("YAY!!!!");
 		}
-		System.out.println();
-		for (int i = 0; i < 5; i++) {
-			System.out.print(state.outOfPlace[i]);
-		}
-		System.out.println();
-		
 	}
 }

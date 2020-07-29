@@ -2,28 +2,34 @@ package app;
 
 import mvc.Model;
 
-public class LingoModel extends Model {
+class LingoModel extends Model {
 
-	private String word;
+	private String targetWord;
 	private LingoState state;
 
-	private String getNewWord() {
+	// Create a random 5 letter word to guess
+	private String createTargetWord() {
 		return "PRICE"; // subtle improvements are imaginable :-)
 	}
 
 	public LingoModel() {
-		word = getNewWord();
-		buildState(word.charAt(0) + "....");
-	}
-
-	private void buildState(String guess) {
-		state.guess = guess;
-		for (int i = 0; i < 5; i++) {
-			state.inPlace[i] = (word.charAt(i) == guess.charAt(i));
-			state.outOfPlace[i] = (!state.inPlace[i] && word.contains(""+guess.charAt(i)));
-		}
+		state = new LingoState();
+		targetWord = createTargetWord();
+		buildState(targetWord.charAt(0) + "....");
 	}
 	
+	private void buildState(String guess) {
+		state.guess = guess;
+		state.solved = true;
+		for (int i = 0; i < 5; i++) {
+			state.inPlace[i] = (targetWord.charAt(i) == guess.charAt(i));
+			if (!state.inPlace[i]) {
+				state.solved = false;
+			}
+			state.outOfPlace[i] = (!state.inPlace[i] && targetWord.contains(""+guess.charAt(i)));
+		}
+	}
+
 	@Override
 	public void setState(Object action) {
 		buildState(action.toString().toUpperCase());

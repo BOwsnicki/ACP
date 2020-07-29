@@ -1,5 +1,5 @@
 package app;
 
-public enum LingoStatus {
+enum UpdateStatus {
 	OK, INVALID_LENGTH, INVALID_CONTENTS
 }

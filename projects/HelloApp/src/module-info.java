@@ -1,0 +1,3 @@
+module HelloApp {
+	requires HelloModule;
+}

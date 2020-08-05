@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Built-By: cop4856
+Build-Jdk: 11.0.8
+Main-Class: javafx.JAVAFX.MainApp
+Created-By: Maven Integration for Eclipse
+

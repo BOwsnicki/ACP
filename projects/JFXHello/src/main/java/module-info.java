@@ -1,7 +1,7 @@
-module javafx {
-    requires javafx.controls;
-    requires javafx.fxml;
-    requires javafx.media;
-    opens hello to javafx.fxml;
-    exports hello;
+module JFXHello {
+	exports hello;
+
+	requires javafx.base;
+	requires javafx.controls;
+	requires javafx.graphics;
 }

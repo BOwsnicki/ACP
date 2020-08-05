@@ -1,0 +1,3 @@
+module ReflectApps {
+	requires ReflectModules;
+}

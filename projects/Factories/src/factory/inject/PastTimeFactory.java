@@ -1,9 +1,6 @@
 package factory.inject;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
 
 import factory.classes.Bicycle;
 import factory.classes.Ferrari;

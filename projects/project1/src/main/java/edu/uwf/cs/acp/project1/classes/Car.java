@@ -50,6 +50,4 @@ public class Car {
 	public String toString() {
 		return "Car [make=" + make + ", size=" + size + ", weight=" + weight + ", horsePower=" + horsePower + "]";
 	}
-	
-	
 }

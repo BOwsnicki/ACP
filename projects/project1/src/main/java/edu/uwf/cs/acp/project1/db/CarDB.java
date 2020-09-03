@@ -2,6 +2,11 @@ package edu.uwf.cs.acp.project1.db;
 
 import java.io.PrintStream;
 import java.lang.reflect.Field;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,8 +22,16 @@ public class CarDB {
 
 	private List<Car> cars;
 	private Map<String, String> fieldMap;
+	private Connection conn;
+	private Statement stmt;
 
 	public CarDB(int n) {
+		try {
+			SimpleDataSource.init();
+			conn = SimpleDataSource.getConnection();
+			stmt = conn.createStatement();
+		} catch (Exception e) {
+		}
 		cars = new ArrayList<Car>();
 		for (int i = 0; i < n; i++) {
 			cars.add(CarFactory.createRandomCar());
@@ -60,16 +73,6 @@ public class CarDB {
 		}
 	}
 
-	private static String findType(String javaType) {
-		if (javaType.equals("int")) {
-			return "INTEGER";
-		}
-		if (javaType.equals("class java.lang.String")) {
-			return "CHAR(40)";
-		}
-		return javaType;
-	}
-
 	public String createTableDecl() {
 		String result = "Create Table Cars (";
 		for (Map.Entry<String, String> entry : fieldMap.entrySet()) {
@@ -78,24 +81,68 @@ public class CarDB {
 		return (result.substring(0, result.length() - 1)) + ")";
 	}
 
-	private String getValue(Car c, String fieldName)
+	private String getValue(Car c, String fieldName, String javaType)
 			throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		Class<?> car = c.getClass();
 		Field field = car.getDeclaredField(fieldName);
 		field.setAccessible(true);
-		return field.get(c).toString();
+		String raw = field.get(c).toString();
+		if (javaType.equals("class java.lang.String")) {
+			raw = "'" + raw + "'";
+		}
+		return raw;
 	}
 
 	public String createInsert(Car c) {
-		String result = "Insert Into Cars (";
-		for (Map.Entry<String,String> entry : fieldMap.entrySet()) {
+		String result = "Insert Into Cars VALUES (";
+		for (Map.Entry<String, String> entry : fieldMap.entrySet()) {
 			String value = "???";
 			try {
-				value = getValue(c,entry.getKey());
+				value = getValue(c, entry.getKey(), entry.getValue());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			result += "'"
-		// INSERT INTO Test2 VALUES ('Romeo',27, true)
+			result += value + ",";
+		}
+		return (result.substring(0, result.length() - 1)) + ")";
 	}
+
+	public void storeCars() {
+		try {
+			stmt.execute("DROP TABLE Cars");
+		} catch (Exception e) {
+		}
+		try {
+			String s =  createTableDecl();
+			System.out.println(s);
+			stmt.execute(s);
+			for (Car c : cars) {
+				String s1 = createInsert(c);
+				System.out.println(s1);
+				stmt.execute(s1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void processQuery(String sqlQuery) {
+		ResultSet result;
+		try {
+			result = stmt.executeQuery(sqlQuery);
+			ResultSetMetaData rsm = result.getMetaData();
+			int cols = rsm.getColumnCount();
+			while (result.next()) {
+				for (int i = 1; i <= cols; i++) {
+					System.out.print(rsm.getColumnName(i) + ": " + result.getString(i) + " ");
+				}
+				System.out.println("");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 }

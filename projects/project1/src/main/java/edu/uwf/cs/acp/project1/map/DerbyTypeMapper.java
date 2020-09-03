@@ -7,7 +7,7 @@ public class DerbyTypeMapper implements TypeMapper {
 			return "INTEGER";
 		}
 		if (javaType.equals("class java.lang.String")) {
-			return "CHAR(40)";
+			return "CHAR(50)";
 		}
 		return javaType;
 	}

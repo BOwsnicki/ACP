@@ -13,9 +13,10 @@ import java.util.List;
 import java.util.Map;
 
 import edu.uwf.cs.acp.project1.classes.Car;
-import edu.uwf.cs.acp.project1.factory.CarFactory;
 import edu.uwf.cs.acp.project1.map.DerbyTypeMapper;
 import edu.uwf.cs.acp.project1.map.TypeMapper;
+import edu.uwf.cs.acp.project1.patterns.CarBuilder;
+import edu.uwf.cs.acp.project1.patterns.CarFactory;
 
 public class CarDB {
 	static private TypeMapper map = new DerbyTypeMapper();
@@ -133,16 +134,15 @@ public class CarDB {
 			ResultSetMetaData rsm = result.getMetaData();
 			int cols = rsm.getColumnCount();
 			while (result.next()) {
+				CarBuilder cb = new CarBuilder().newCar();
 				for (int i = 1; i <= cols; i++) {
-					System.out.print(rsm.getColumnName(i) + ": " + result.getString(i) + " ");
+					cb.addValue(rsm.getColumnName(i), result.getObject(i));
 				}
-				System.out.println("");
+				System.out.println(cb.build());
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
-
 }

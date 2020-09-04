@@ -14,6 +14,10 @@ public class Car {
 		this.horsePower = horsePower;
 	}
 
+	public Car () {
+		this(null, null, 0, 0);
+	}
+	
 	public String getMake() {
 		return make;
 	}

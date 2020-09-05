@@ -24,14 +24,23 @@ import java.util.Scanner;
 import java.util.Set;
 
 import edu.uwf.cs.dsa.project2.dictionary.Dictionary;
+import edu.uwf.cs.dsa.project2.dictionary.LanguageSettings;
 import edu.uwf.cs.dsa.project2.dictionary.Suggestions;
 
 import java.util.Iterator;
+import java.util.Locale;
+
 import javafx.stage.FileChooser;
 import javafx.application.Platform;
 
 public class App extends Application {
 
+	private Locale currentLocale;
+	
+	public App() {
+		currentLocale = LanguageSettings.US_EN;
+	}
+	
 	public static void main(String[] args) {
 		Application.launch(args);
 	}
@@ -94,7 +103,7 @@ public class App extends Application {
 		root.getChildren().add(borderPane);
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		d = new Dictionary();
+		d = new Dictionary(currentLocale);
 	}
 
 	private EventHandler<ActionEvent> changeTabPlacement() {
@@ -199,7 +208,6 @@ public class App extends Application {
 		Iterator<String> it = suggestions.iterator();
 		while (it.hasNext())
 			s = s + it.next() + '\n';
-		suggestions.clear();
 		alert.setContentText(s);
 
 		Optional<ButtonType> result = alert.showAndWait();

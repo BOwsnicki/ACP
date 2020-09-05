@@ -2,13 +2,26 @@ package edu.uwf.cs.dsa.project2.dictionary;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 public class Suggestions {
-	private static final Dictionary d = new Dictionary();
-	private static Set<String> suggestions = new HashSet<String>();
-
-	public static void oneLetterAdded(String word) {
+	private Dictionary d;
+	private Set<String> suggestions = new HashSet<String>();
+	private Locale activeLocale;
+	private KeyboardMap kbMap;
+	
+	public Suggestions(Locale l) {
+		activeLocale = l;
+		d = new Dictionary(activeLocale);
+		kbMap = KeyboardMapFactory.createKeyboardMap(activeLocale);
+	}
+	
+	public Suggestions() {
+		this(LanguageSettings.US_EN);
+	}
+	
+	public void oneLetterAdded(String word) {
 		int i;
 		char ch;
 		StringBuffer st = new StringBuffer(word);
@@ -26,7 +39,7 @@ public class Suggestions {
 		}
 	}
 
-	public static void twoLettersReversed(String word) {
+	public void twoLettersReversed(String word) {
 		int i;
 		char ch1, ch2;
 		for (i = 0; i < word.length() - 1; i++) // two letters reversed
@@ -48,7 +61,7 @@ public class Suggestions {
 		}
 	}
 
-	public static void oneLetterDeleted(String word) {
+	public void oneLetterDeleted(String word) {
 		final int chars = 26;
 		int i, k;
 		int x = 0;
@@ -67,12 +80,12 @@ public class Suggestions {
 		}
 	}
 
-	public static void horizontalShift(String word) {
+	public void horizontalShift(String word) {
 		StringBuilder sb = new StringBuilder(word);
 		for (int i = 0; i < word.length(); i++)
 		{
 			char ch = word.charAt(i);
-			List<Character> substitutions= KeyBoardUSHoriz.neighbors(ch);
+			List<Character> substitutions= kbMap.neighbors(ch);
 			for (char c : substitutions) {
 				sb.setCharAt(i,c);
 				System.out.println(" horizontal shift = [" + sb + "]");
@@ -85,7 +98,7 @@ public class Suggestions {
 		}
 	}
 	
-	public static Set<String> getSuggestions(String word) {
+	public Set<String> getSuggestions(String word) {
 		suggestions.clear();
 		oneLetterDeleted(word);
 		twoLettersReversed(word);

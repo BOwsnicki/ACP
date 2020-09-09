@@ -101,7 +101,13 @@ public class App extends Application {
 
         Scene scene = new Scene(grid, 300, 275);
         primaryStage.setScene(scene);
-        scene.getStylesheets().add(App.class.getResource("Login.css").toExternalForm());
+
+        // Add the StyleSheet to the Scene
+        scene.getStylesheets().
+        	add(getClass().
+        	getResource("Login.css").
+        	toExternalForm());
+        
         primaryStage.show();
     }
 }

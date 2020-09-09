@@ -35,7 +35,7 @@ root {
 }
 
 .root {
-     -fx-background-image: url("background.jpg");
+     -fx-background-image: url("marble.jpg");
 }
 
 .label {

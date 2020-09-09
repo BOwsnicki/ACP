@@ -1,61 +1,73 @@
 package edu.uwf.cs.acp.jfxdemos;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
-import javafx.scene.Scene; 
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage; 
+import javafx.stage.Stage;
 
 public class ImageExample extends Application {
 
-    @Override public void start(Stage stage) {
-        // load the image
-        Image image = new Image("src/main/java/edu/uwf/cs/acp/jfxdemos/flower.jpg");
+	@Override
+	public void start(Stage stage) {
+		// load the image
 
-        // simple displays ImageView the image as is
-        ImageView iv1 = new ImageView();
-        iv1.setImage(image);
+		try (FileInputStream imageStream = 
+				new FileInputStream("flower.jpg")) {
+			Image image = new Image(imageStream);
 
-        // resizes the image to have width of 100 while preserving the ratio and using
-        // higher quality filtering method; this ImageView is also cached to
-        // improve performance
-        ImageView iv2 = new ImageView();
-        iv2.setImage(image);
-        iv2.setFitWidth(100);
-        iv2.setPreserveRatio(true);
-        iv2.setSmooth(true);
-        iv2.setCache(true);
+			// simple displays ImageView the image as is
+			ImageView iv1 = new ImageView();
+			iv1.setImage(image);
 
-        // defines a viewport into the source image (achieving a "zoom" effect) and
-        // displays it rotated
-        ImageView iv3 = new ImageView();
-        iv3.setImage(image);
-        Rectangle2D viewportRect = new Rectangle2D(40, 35, 110, 110);
-        iv3.setViewport(viewportRect);
-        iv3.setRotate(90);
+			// resizes the image to have width of 100 while preserving the ratio and using
+			// higher quality filtering method; this ImageView is also cached to
+			// improve performance
+			ImageView iv2 = new ImageView();
+			iv2.setImage(image);
+			iv2.setFitWidth(100);
+			iv2.setPreserveRatio(true);
+			iv2.setSmooth(true);
+			iv2.setCache(true);
 
-        Group root = new Group();
-        Scene scene = new Scene(root);
-        scene.setFill(Color.BLACK);
-        HBox box = new HBox();
-        box.getChildren().add(iv1);
-        box.getChildren().add(iv2);
-        box.getChildren().add(iv3);
-        root.getChildren().add(box);
+			// defines a viewport into the source image (achieving a "zoom" effect) and
+			// displays it rotated
+			ImageView iv3 = new ImageView();
+			iv3.setImage(image);
+			Rectangle2D viewportRect = new Rectangle2D(40, 35, 110, 110);
+			iv3.setViewport(viewportRect);
+			iv3.setRotate(90);
 
-        stage.setTitle("ImageView");
-        stage.setWidth(415);
-        stage.setHeight(200);
-        stage.setScene(scene); 
-        stage.sizeToScene(); 
-        stage.show(); 
-    }
+			Group root = new Group();
+			Scene scene = new Scene(root);
+			scene.setFill(Color.BLACK);
+			HBox box = new HBox();
+			box.getChildren().add(iv1);
+			box.getChildren().add(iv2);
+			box.getChildren().add(iv3);
+			root.getChildren().add(box);
 
-    public static void main(String[] args) {
-        Application.launch(args);
-    }
+			stage.setTitle("ImageView");
+			stage.setWidth(415);
+			stage.setHeight(200);
+			stage.setScene(scene);
+			stage.sizeToScene();
+			stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public static void main(String[] args) {
+		Application.launch(args);
+	}
 }

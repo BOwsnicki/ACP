@@ -1,4 +1,4 @@
-package examples;
+package examples.basic;
 
 public class SimpleRegex {
 
@@ -28,23 +28,8 @@ public class SimpleRegex {
 			System.out.println("no match for jim or joe");
 	}
 
-	public void checkPhoneNumber() {
-		// String pattern = "\\d\\d\\d([-,\\s])?\\d\\d\\d\\d"; // ugly!
-		String pattern = "\\d{3}([-,\\s])?\\d{4}"; // cleaner!!!!!
-		String[] s = { "1233323322", "1233323", "123,3323", "123 3323", "123-3323" };
-
-		for (int i = 0; i < s.length; i++) {
-			if (s[i].matches(pattern))
-				System.out.println(s[i] + " legal phone number");
-			else
-				System.out.println(s[i] + " illegal phone number");
-		}
-	}
-
 	public static void main(String[] args) {
 		SimpleRegex sr = new SimpleRegex();
 		sr.checkStrings();
-		sr.checkPhoneNumber();
-
 	}
 }

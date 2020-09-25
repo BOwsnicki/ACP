@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Thu Sep 03 19:41:55 CDT 2020:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0174-5690-0eee-0000038759d8 
+Mon Sep 14 15:32:47 CDT 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0174-8e51-ecb8-000003874678 
 on database directory /home/cop4856/eclipse-workspace/project1/myDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@55054057 
 Loaded from file:/home/cop4856/.m2/repository/org/apache/derby/derby/10.12.1.1/derby-10.12.1.1.jar
 java.vendor=Ubuntu
@@ -8,6 +8,6 @@ java.runtime.version=11.0.8+10-post-Ubuntu-0ubuntu120.04
 user.dir=/home/cop4856/eclipse-workspace/project1
 os.name=Linux
 os.arch=amd64
-os.version=5.4.0-45-generic
+os.version=5.4.0-47-generic
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''

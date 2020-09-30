@@ -14,7 +14,7 @@ public class GreetingThreadRunnerIR {
 		try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
-			// No idea why that happened!!!
+			System.out.println("Main interrupted!!");
 		};
 		t1.interrupt();
 	}

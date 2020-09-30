@@ -1,4 +1,4 @@
-package threads.raceconditions.synched;
+package threads.raceconditions.synched2;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;

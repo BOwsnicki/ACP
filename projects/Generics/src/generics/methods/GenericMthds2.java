@@ -6,26 +6,35 @@ import java.util.Collection;
 
 public class GenericMthds2 {
 
-	/*	KAPUT!
-	public static void fromArray(Object[] o, Collection<Object> c) {
+	public static void fromArray(Object[] o, Collection<? extends Object> c) {
 	   for (Object obj : o) {
 	      c.add(obj);
 	   }
 	   System.out.println();
 	}
-	*/
 	
+	public static void toArray(Object[] o, Collection<? extends Object> c) {
+		   int len = c.size();
+		   o = new Object[len];
+		   int i = 0;
+		   for (Object obj : c) {
+			   o[i++] = obj;
+		   }
+		   System.out.println();
+		}
+
+/*
 	public static <T> void fromArray(T[] o, Collection<T> c) {
 		for (T obj : o) {
 			c.add(obj);
 		}
 		System.out.println();
 	}
-
+*/
 	public static void main(String[] args) {
-
-		String[] hello = { "hello", "World" };
-		Collection<String> c = new ArrayList<>();
+		Integer[] hello = { 42, 200 };
+		Collection<Integer> c = new ArrayList<>();
 		fromArray(hello, c);
+		toArray(hello,c);
 	}
 }

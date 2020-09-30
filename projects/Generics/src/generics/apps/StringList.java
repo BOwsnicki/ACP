@@ -3,9 +3,10 @@ package generics.apps;
 import generics.linkedlist.LinkedList;
 import generics.linkedlist.ListIterator;
 
+
 public class StringList {
 	public static void main(String[] args) {
-		LinkedList<String> staff = new LinkedList<String>();
+		LinkedList<String> staff = new LinkedList<>();
 		staff.addFirst("Tom");
 		staff.addFirst("Romeo");
 		staff.addFirst("Harry");

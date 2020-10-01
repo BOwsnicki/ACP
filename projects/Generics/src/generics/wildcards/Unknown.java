@@ -14,6 +14,14 @@ public class Unknown {
 		}
 	}
 
+	/* SAME AS
+	public static void processElements(List<? extends Object> elements) {
+		for (Object o : elements) {
+			System.out.println(o);
+		}
+	}
+	*/
+	
 	public static void main(String[] args) {
 		List<A> dataA = new ArrayList<A>();
 		processElements(dataA);

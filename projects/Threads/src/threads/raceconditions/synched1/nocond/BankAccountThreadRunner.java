@@ -1,4 +1,4 @@
-package threads.raceconditions.synched1;
+package threads.raceconditions.synched1.nocond;
 
 /**
  * This program runs threads that deposit and withdraw money from the same bank

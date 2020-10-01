@@ -1,8 +1,6 @@
 package threads.greetings;
 
-/**
- * This program runs two greeting threads in parallel.
- */
+
 public class GreetingThreadRunner {
 	public static void main(String[] args) {
 		Runnable r1 = new GreetingRunnable("Hello, World!");

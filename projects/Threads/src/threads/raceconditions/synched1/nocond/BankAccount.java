@@ -1,4 +1,4 @@
-package threads.raceconditions.synched1;
+package threads.raceconditions.synched1.nocond;
 
 /**
  * A bank account has a balance that can be changed by deposits and withdrawals.
@@ -31,12 +31,10 @@ public class BankAccount {
 	 * @param amount the amount to withdraw
 	 */
 	public synchronized void withdraw(double amount) throws InterruptedException {
-		while (balance >= amount) {
-			System.out.print("Withdrawing " + amount);
-			double newBalance = balance - amount;
-			System.out.println(", new balance is " + newBalance);
-			balance = newBalance;
-		}
+		System.out.print("Withdrawing " + amount);
+		double newBalance = balance - amount;
+		System.out.println(", new balance is " + newBalance);
+		balance = newBalance;
 	}
 
 	/**

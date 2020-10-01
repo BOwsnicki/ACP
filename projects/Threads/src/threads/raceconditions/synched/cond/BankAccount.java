@@ -1,11 +1,11 @@
-package threads.raceconditions.unsynched;
+package threads.raceconditions.synched.cond;
 
 /**
  * A bank account has a balance that can be changed by deposits and withdrawals.
  */
 public class BankAccount {
 	private double balance;
-	
+
 	/**
 	 * Constructs a bank account with a zero balance.
 	 */
@@ -18,7 +18,7 @@ public class BankAccount {
 	 * 
 	 * @param amount the amount to deposit
 	 */
-	public void deposit(double amount) {
+	public synchronized void deposit(double amount) {
 		System.out.print("Depositing " + amount);
 		double newBalance = balance + amount;
 		System.out.println(", new balance is " + newBalance);
@@ -30,11 +30,15 @@ public class BankAccount {
 	 * 
 	 * @param amount the amount to withdraw
 	 */
-	public void withdraw(double amount) {
-		System.out.print("Withdrawing " + amount);
-		double newBalance = balance - amount;
-		System.out.println(", new balance is " + newBalance);
-		balance = newBalance;
+	public synchronized void withdraw(double amount) throws InterruptedException {
+		if (balance >= amount) {
+			System.out.print("Withdrawing " + amount);
+			double newBalance = balance - amount;
+			System.out.println(", new balance is " + newBalance);
+			balance = newBalance;
+		} else {
+			System.out.println("Can't withdraw!");
+		}
 	}
 
 	/**

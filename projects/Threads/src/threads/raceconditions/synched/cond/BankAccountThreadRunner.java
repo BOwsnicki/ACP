@@ -10,8 +10,8 @@ public class BankAccountThreadRunner {
 		final double AMOUNT = 100;
 		final int REPETITIONS = 100;
 
-		DepositRunnable d = new DepositRunnable(account, AMOUNT, REPETITIONS);
-		WithdrawRunnable w = new WithdrawRunnable(account, AMOUNT, REPETITIONS);
+		Runnable d = new DepositRunnable(account, AMOUNT, REPETITIONS);
+		Runnable w = new WithdrawRunnable(account, AMOUNT, REPETITIONS);
 
 		Thread dt = new Thread(d);
 		Thread wt = new Thread(w);

@@ -31,7 +31,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.4</version>
                 <configuration>
-                    <mainClass>edu.uwf.cd.acp.p3.App</mainClass>
+                    <mainClass>edu.uwf.cd.acp.p3.v2.GraphicsRunner</mainClass>
                 </configuration>
             </plugin>
         </plugins>

@@ -8,7 +8,7 @@ import java.lang.Runnable;
 import java.util.Random;
 //import java.Exception.InterruptedException;
 
-class Horse implements Runnable
+public class Horse implements Runnable
 {
   int x1,y1;
   boolean first = true;
@@ -60,18 +60,18 @@ class Horse implements Runnable
       {
          while(x1<700)
          {
-            drawer.horseLock.lock();
+            // drawer.horseLock.lock();
             try
             {  
               draw(gc);
               if(x1>=700)
               {
-                 drawer.stopAll(whichHorse);
+                 // drawer.stopAll(whichHorse);
                  System.out.println("Winner " + whichHorse + " is returning");
-                 drawer.horseLock.unlock();
+                 // drawer.horseLock.unlock();
                  return;
               }
-              drawer.horseLock.unlock();
+              //  drawer.horseLock.unlock();
               Thread.sleep(r.nextInt(500));
             }
             catch(InterruptedException e)

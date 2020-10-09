@@ -1,4 +1,4 @@
-package edu.uwf.cd.acp.project3;
+package edu.uwf.cd.acp.project3.classes;
 
 public class Climber
 {

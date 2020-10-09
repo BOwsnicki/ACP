@@ -1,7 +1,9 @@
-package edu.uwf.cd.acp.project3;
+package edu.uwf.cd.acp.project3.text;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.uwf.cd.acp.project3.classes.Climber;
 
 public class MainText {
 	public static void main(String[] args) {

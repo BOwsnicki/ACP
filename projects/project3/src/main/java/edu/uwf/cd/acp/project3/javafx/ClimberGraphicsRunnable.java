@@ -1,7 +1,8 @@
-package edu.uwf.cd.acp.project3;
+package edu.uwf.cd.acp.project3.javafx;
 
 import java.util.Random;
 
+import edu.uwf.cd.acp.project3.classes.Climber;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;

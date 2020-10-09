@@ -1,4 +1,4 @@
-package edu.uwf.cd.acp.project3;
+package edu.uwf.cd.acp.project3.javafx;
 
 import java.util.ArrayList;
 import java.util.List;

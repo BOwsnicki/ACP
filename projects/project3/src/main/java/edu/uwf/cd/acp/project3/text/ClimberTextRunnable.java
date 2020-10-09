@@ -1,6 +1,8 @@
-package edu.uwf.cd.acp.project3;
+package edu.uwf.cd.acp.project3.text;
 
 import java.util.Random;
+
+import edu.uwf.cd.acp.project3.classes.Climber;
 
 public class ClimberTextRunnable implements Runnable {
 	private Climber c;

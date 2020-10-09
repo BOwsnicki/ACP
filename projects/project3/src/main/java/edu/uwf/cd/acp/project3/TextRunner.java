@@ -3,8 +3,7 @@ package edu.uwf.cd.acp.project3;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TextRunner implements ClimbRunner {
-	@Override
+public class TextRunner {
 	public void runAll(List<Climber> cList) {
 		Thread myself = Thread.currentThread();	
 		List<Thread> threadList = new ArrayList<>();

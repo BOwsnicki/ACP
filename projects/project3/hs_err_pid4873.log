@@ -1,0 +1,21 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f5d8aae10ad, pid=4873, tid=4889
+#
+# JRE version: OpenJDK Runtime Environment (11.0.8+10) (build 11.0.8+10-post-Ubuntu-0ubuntu120.04)
+# Java VM: OpenJDK 64-Bit Server VM (11.0.8+10-post-Ubuntu-0ubuntu120.04, mixed mode, sharing, tiered, compressed oops, g1 gc, linux-amd64)
+# Problematic frame:
+# C  [libjimage.so+0x30ad]
+#
+# Core dump will be written. Default location: Core dumps may be processed with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to /home/cop4856/eclipse-workspace/project3/core.4873)
+#
+# If you would like to submit a bug report, please visit:
+#   https://bugs.launchpad.net/ubuntu/+source/openjdk-lts
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -agentlib:jdwp=transport=dt_socket,suspend=y,address=localhost:42671 -javaagent:/home/cop4856/eclipse/jee-2020-06/eclipse/configuration/org.eclipse.osgi/406/0/.cp/lib/javaagent-shaded.jar -Dfile.encoding=UTF-8 --module-path=/home/cop4856/eclipse-workspace/project3/target/classes:/home/cop4856/.m2/repository/org/openjfx/javafx-controls/13/javafx-controls-13-linux.jar:/home/cop4856/.m2/repository/org/openjfx/javafx-graphics/13/javafx-graphics-13-linux.jar:/home/cop4856/.m2/repository/org/openjfx/javafx-base/13/javafx-base-13-linux.jar -Djdk.module.main=edu.uwf.cd.acp.project3 edu.uwf.cd.acp.project3/edu.uwf.cd.acp.project3.App
+
+Host: Intel(R) Core(TM) i7-10510U CPU @ 1.80GHz, 

@@ -16,6 +16,10 @@ public class Climber
 		currentRung++;
 	}
 	
+	public void reset() {
+		currentRung = 0;
+	}
+	
 	public String getName() {
 		return name;
 	}

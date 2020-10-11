@@ -6,13 +6,20 @@ import java.util.List;
 public class Score {
 	private static final List<Runnable> rl = new ArrayList<>();
 	private static int index;
+	
 	public static void reset() {
 		index = 0;
 		rl.clear();
 	}
-	public static void register(Runnable r) {
+	
+	public synchronized static void register(Runnable r) {
 		rl.add(index++,r);
 	}
+	
+	public static int getIndex() {
+		return index;
+	}
+	
 	public static Runnable[] standings() {
 		int len = rl.size();
 		Runnable[] result = new Runnable[len];

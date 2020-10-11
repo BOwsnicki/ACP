@@ -61,7 +61,7 @@ public class App extends Application {
 		}
 		status = READY;
 
-		Button startButton = new Button("Start Climbing!");
+		Button startButton = new Button("Climb");
 		EventHandler<ActionEvent> start = runRace();
 		startButton.setOnAction(start);
 
@@ -114,8 +114,10 @@ public class App extends Application {
 				if (noRunningThread()) {
 					if (status == RUNNING) {
 						status = TERMINATED;
-						Alert a = new Alert(AlertType.NONE, "", ButtonType.APPLY);
-						String s = "Final Results:\n\n";
+						Alert a = new Alert(AlertType.INFORMATION);
+						a.setTitle("Final Results");
+						a.setHeaderText("");
+						String s = "";
 						Runnable[] result = Score.standings();
 						for (int i = 0; i < result.length; i++) {
 							s += "" + (i + 1) + ": " + ((ClimberGraphicsRunnable) result[i]).getClimber().getName()
@@ -123,7 +125,7 @@ public class App extends Application {
 						}
 						a.setContentText(s);
 						a.show();
-					} else {
+					} else { // probably means they haven't started yet
 						Alert a = new Alert(AlertType.ERROR);
 						a.setContentText("Competition not started!");
 						a.show();						

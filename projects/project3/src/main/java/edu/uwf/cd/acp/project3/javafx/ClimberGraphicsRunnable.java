@@ -55,15 +55,11 @@ public class ClimberGraphicsRunnable implements Runnable {
 		for (int i = 1; i <= 20; i++) {
 			gc.strokeLine(xOff, yOff + 600 - 30 * i, xOff + ladderWidth, yOff + 600 - 30 * i);
 		}
-		
-        gc.setTextAlign(TextAlignment.CENTER);
-        gc.setTextBaseline(VPos.CENTER);
 
-        gc.fillText(
-            climber.getName(), 
-            Math.round(canvas.getWidth()  / 2), 
-            655
-        );
+		gc.setTextAlign(TextAlignment.CENTER);
+		gc.setTextBaseline(VPos.CENTER);
+
+		gc.fillText(climber.getName(), Math.round(canvas.getWidth() / 2), 655);
 	}
 
 	private void paintFigure(int rung) {
@@ -82,18 +78,22 @@ public class ClimberGraphicsRunnable implements Runnable {
 
 	public void reset() {
 		climber.reset();
-		paintLadder();
-		paintFigure(0);
+		synchronized (canvas.getParent()) {
+			paintLadder();
+			paintFigure(0);
+		}
 	}
-	
+
 	@Override
 	public void run() {
 		try {
 			do {
 				climber.climb();
 				System.out.println("Climber " + climber.getName() + " up to " + climber.getCurrentRung());
-				paintLadder();
-				paintFigure(climber.getCurrentRung());
+				synchronized (canvas.getParent()) {
+					paintLadder();
+					paintFigure(climber.getCurrentRung());
+				}
 				if (!climber.done()) {
 					Thread.sleep(rand.nextInt(1000));
 				}

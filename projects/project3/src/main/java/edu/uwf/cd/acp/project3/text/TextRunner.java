@@ -22,7 +22,6 @@ public class TextRunner {
 			} catch (InterruptedException e) {
 				threadList.forEach(t -> {if (t.isAlive()) 
 											{t.interrupt();}});
-				
 			}
 		}
 	}

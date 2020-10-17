@@ -21,6 +21,7 @@ public class TicTacToeServer {
 	// set up ServerSocket
 	try
 	{	server = new ServerSocket (5000);
+		System.err.println("Listening on port 5000");
 	}
 	catch ( IOException e)
 	{	e.printStackTrace();
@@ -49,6 +50,7 @@ public class TicTacToeServer {
  	// Determine if move is valid. This method is synchronized so that only 
 	// one move can be made at a time
    {   
+	   System.err.println("Checking " + loc + " for player " + player);
 	while ( player != currentPlayer ) {
 		try 
 		{	wait();	}
@@ -71,6 +73,7 @@ public class TicTacToeServer {
    public void display(String s) {
 	   System.out.println(s);
    }
+   
    public boolean isOccupied (int loc)
    {
 	if ( board[loc] == 'X' || board[loc] == 'O' )
@@ -93,12 +96,13 @@ public class TicTacToeServer {
 class Player extends Thread {
 // Player class to manage each Player as a thread
 	Socket connection;
-	DataInputStream input;
+	// DataInputStream input;
+	BufferedReader input;
 	DataOutputStream output;
 	TicTacToeServer control;
 	int number;
 	char mark;
-
+    
   public Player (Socket sock, TicTacToeServer tttServer, int num )
   {
 	mark = ( num == 0 ? 'X' : 'O' );
@@ -106,7 +110,8 @@ class Player extends Thread {
 
 	try
 	{
-		input = new DataInputStream(connection.getInputStream() );
+	    input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		// input = new DataInputStream(connection.getInputStream() );
 		output = new DataOutputStream(connection.getOutputStream() );
 	}
 	catch (IOException e)
@@ -125,35 +130,45 @@ class Player extends Thread {
 	catch (IOException e)	{}
    }
 
+   private static void writeString(DataOutputStream dos, String s) throws IOException {
+	   dos.write(s.getBytes());
+   }
+   
    public void run()
    {
 	boolean done = false;
 
 	try {
  		System.err.println( "Player " + ( number == 0 ? 'X' : 'O' ) + " connected" );
-		output.writeChar( mark );
-		output.writeUTF( "Player " + ( number == 0 ? "X connected\n" : 
-					"O connected, please wait\n"));
+		writeString(output, "Player " + ( number == 0 ? "X connected " : 
+					"O connected, please wait\n "));
 	// wait for another player to arrive
 		if ( control.getNumberOfPlayers() < 2 )
 		{
-			output.writeUTF( "Waiting for another player" );
-			while (control.getNumberOfPlayers() < 2) ;
-
-			output.writeUTF( "Other player connected. Your move.");
+			writeString(output, "Waiting for another player\n" );
+			while (control.getNumberOfPlayers() < 2) {
+				Thread.sleep(1000);
 		}
-
+			writeString(output, "Other player connected.\n");
+		} else {
+			// writeString(output, "Both players connected. Please wait.\n");
+		}
+		output.flush();
 	// play game
 		while ( !done )
 		{
-			int location = input.readInt();
+			writeString(output, "Your move.\n");
+			String response = input.readLine();
+			System.err.println(number + " " + response);
+			int location = Integer.parseInt(response);
+			// int location = 3;
 			if (control.validMove (location, number ) )
 			{
 				control.display ( "loc: " + location );
-				output.writeUTF ( "Valid move." );
+				writeString(output, "Valid move" );
 			}
 			else
-				output.writeUTF ( "Invalid move, try again!!!" );
+				writeString(output, "Invalid move, try again!!!" );
 
 			if (control.gameOver() )
 				done = true;
@@ -161,7 +176,11 @@ class Player extends Thread {
 		connection.close();
 	}
 	catch (IOException e)
-		{	e.printStackTrace(); System.exit(1);	}
+		{	e.printStackTrace(); System.exit(1);	} 
+	catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
    }
 }	
 

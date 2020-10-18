@@ -38,7 +38,7 @@ public class WebServerThreaded {
 
     // Logging stuff
     private static final String LOG_FILE = "logs/server.log";
-    private static final Logger LOGGER = Logger.getLogger(WebServerThreaded.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(WebServerSingle.class.getName());
     static {
         FileHandler fh = null;
 		try {
@@ -62,13 +62,11 @@ public class WebServerThreaded {
     public static void main(String argv[]) throws Exception {
         // Set up a socket on the main port
         ServerSocket listenSocket = new ServerSocket(port);
-        // LOGGER.log(Level.INFO,"Listening at " + port);
+
         System.err.println("Listening at " + port);
-        
         // Main loop: Wait for, read and process aq client request
         while (true) {
             // request received: the request "text" will come in over another socket
-            LOGGER.log(Level.INFO,"Request received");
             RequestHandler rh = new RequestHandler(listenSocket.accept(), LOGGER);
             rh.start();
         }

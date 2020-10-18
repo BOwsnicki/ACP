@@ -39,7 +39,7 @@ public class GameRunnable implements Runnable {
 		while (true) {
 			if (!in.hasNext())
 				return;
-			String command = in.next();
+			String command = in.nextLine();
 			if (command.equalsIgnoreCase("QUIT"))
 				return;
 			else
@@ -59,8 +59,9 @@ public class GameRunnable implements Runnable {
 	 */
 	public void executeCommand(String[] command) {
 		aWinner = 0;
-		System.out.println("**Command is [" + command + "]" + " by player " + playerNumber);
+		System.out.println("**Command is [" + command[0] + "]" + " by player " + playerNumber);
 
+		/*
 		if (command[0].compareTo("hello") == 0) {
 			if (game.player1 == null) {
 				game.player1 = new String("player1");
@@ -78,20 +79,28 @@ public class GameRunnable implements Runnable {
 			out.flush();
 			return;
 		}
-
-		else if (command.equals("move")) {
-			playerNumber = in.nextInt();
-			x = in.nextInt();
-			y = in.nextInt();
+		*/
+		if (command[0].equals("move")) {
+			playerNumber = Integer.parseInt(command[1]);
+			x = Integer.parseInt(command[2]);
+			y = Integer.parseInt(command[3]);
 			System.out.println("Move is player " + playerNumber + " x = " + x + " y = " + y);
-			boolean legal = game.move(playerNumber, x, y);
-			if (!legal) {
-				out.println("Invalid move");
+			try {
+				boolean legal = game.move(playerNumber, x, y);
+				if (!legal) {
+					out.println("Invalid move");
+					out.flush();
+					return;
+				} else {
+					out.println("OK");
+					out.flush();
+				}
+				game.showBoard();
+			} catch (WrongTurnException w) {
+				out.println("Wrong turn.");
 				out.flush();
-				return;
 			}
-			game.showBoard();
-		} else {
+		}	 else {
 			out.println("Invalid command");
 			out.flush();
 			return;

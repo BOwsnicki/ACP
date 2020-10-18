@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 public class TicServer2 {
-	final static int TIC_PORT = 8889;
+	final static int TIC_PORT = 5000;
 
 	// Logging stuff
 	private static final String LOG_FILE = "logs/ticserver.log";
@@ -54,8 +54,8 @@ public class TicServer2 {
 				out.println("Hello " + command[1] + " you are Player 2. Let the game begin!");
 			}
 		}
-		in.close();
-		out.close();
+		// in.close();
+		// out.close();
 		return command[1];
 	}
 
@@ -98,7 +98,7 @@ public class TicServer2 {
 			} catch (Exception e) {
 			}
 		}
-	}
+	}	
 
 	public static void main(String[] args) throws IOException {
 		new TicServer2();

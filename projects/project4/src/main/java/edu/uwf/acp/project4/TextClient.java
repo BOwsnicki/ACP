@@ -9,31 +9,35 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 public class TextClient {
-
+  
   public static void main(String args[]) {
       String host = "127.0.0.1";
-      int port = 8889;
-      new TextClient(host, port);
+      Scanner in = new Scanner(System.in);
+      int port = 5000;
+      System.out.print("ID: ");
+      String id = in.nextLine();
+      // in.close();
+      new TextClient(host, port, id);
+      
   }
 
-  public TextClient(String host, int port) {
+  public TextClient(String host, int port, String id) {
       try {
-          String serverHostname = new String("127.0.0.1");
-
-          System.out.println("Connecting to host " + serverHostname + " on port " + port + ".");
-          System.out.println("Enter message, q to quit");
-          Socket echoSocket = null;
+    	  BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+    	  System.out.println("Connecting to host " + host + " on port " + port + ".");
+          Socket socket = null;
           PrintWriter out = null;
           BufferedReader in = null;
 
           try {
-              echoSocket = new Socket(serverHostname, 8889);
-              out = new PrintWriter(echoSocket.getOutputStream(), true);
-              in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
+              socket = new Socket(host, port);
+              out = new PrintWriter(socket.getOutputStream(), true);
+              in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
           } catch (UnknownHostException e) {
-              System.out.println("Unknown host: " + serverHostname);
+              System.out.println("Unknown host: " + host);
               System.exit(1);
           } catch (IOException e) {
               System.out.println("Unable to get streams from server");
@@ -41,17 +45,22 @@ public class TextClient {
               System.exit(1);
           }
 
-          /** {@link UnknownHost} object used to read from console */
-          BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-
           while (true) {
-              System.out.print("client: ");
+        	  String login = "join " + id;
+        	  out.println(login);
+        	  System.out.println("Sending: "+login);
+        	  System.out.println("server: " + in.readLine());
+        	  
+              System.out.println("Enter message, q to quit");
+        	  // System.out.println("server: " + in.readLine());
+
+              System.out.print("client-" + id + ": ");
               String userInput = stdIn.readLine();
               /** Exit on 'q' char sent */
               if ("q".equals(userInput)) {
                   break;
               }
-              out.println(userInput);
+              out.println(userInput + "\n");
               System.out.println("server: " + in.readLine());
           }
 
@@ -59,7 +68,7 @@ public class TextClient {
           out.close();
           in.close();
           stdIn.close();
-          echoSocket.close();
+          socket.close();
       } catch (Exception e) {
           e.printStackTrace();
       }

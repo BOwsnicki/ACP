@@ -118,13 +118,17 @@ public class GameController {
 		return true;
 	}
 
-	public boolean move(int whichPlayer, int x, int y) {
+	public boolean move(int whichPlayer, int x, int y) throws WrongTurnException {
 		System.out.println("player " + whichPlayer + " moves x = " + x + " y = " + y);
-		if ((whichPlayer != toMove) || (board[x][y] != 0)) {
+		
+		if (whichPlayer != toMove) throw new WrongTurnException();
+		
+		if (board[x][y] != 0) {
 			return false; 
 		}	
 		board[x][y] = whichPlayer;
 		totalMoves++;
+		nextMover();
 		return true;
 	}
 

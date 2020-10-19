@@ -6,7 +6,6 @@ import java.util.List;
 
 public class Runner {
 	public void runAll(List<Climber> cList) {
-		Thread myself = Thread.currentThread();	
 		List<Thread> threadList = new ArrayList<>();
 	
 		cList.forEach(c -> {

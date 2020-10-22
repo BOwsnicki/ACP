@@ -26,6 +26,34 @@ public class TextClient {
 		return split[0];
 	}
 	
+	private static int[][] getBoard(String board) {
+		int[][] intBoard = new int[3][3];
+		int count = -1;
+		for (int row = 0; row < 3; row++) {
+			for (int col = 0; col < 3; col++) {
+				switch (board.charAt(count++)) {
+				case '.': intBoard[row][col] = -1; break;
+				case '0': intBoard[row][col] = 0; break;
+				case '1': intBoard[row][col] = 1; 
+				}
+			}
+		}
+		return intBoard;
+	}
+	
+	private static void showBoard(String board) {
+		int[][] intBoard = getBoard(board);
+		for (int row = 0; row < 3; row++) {
+			for (int col = 0; col < 3; col++) {
+				int piece = intBoard[row][col];
+				if (piece == -1) {
+					System.out.print(" ");					 
+				} else {
+					System.out.print(piece);
+				}
+			}
+		}
+	}
 	
   public static void main(String args[]) {
       String host = "127.0.0.1";
@@ -68,7 +96,7 @@ public class TextClient {
         	  
       	  // Determine who I am (0 or 1)
       	  myNumber = getInt(response,2);
-      	  System.out.println("Index: " + myNumber);
+      	  System.out.println("index: " + myNumber);
 
       	  while (true) {
       		  // Wait until if it's my move

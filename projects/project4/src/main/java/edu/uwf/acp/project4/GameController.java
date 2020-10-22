@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 
 public class GameController {
 	private static final int EMPTY = -1;
-	private static final int[][] checks = 
+	private static final int[][] WIN_CHECKS = 
 		{
 			{0,1,2}, {3,4,5}, {6,7,8},
 			{0,3,6}, {1,4,7}, {2,5,8},
@@ -17,9 +17,6 @@ public class GameController {
 	private int toMove;
 
 	GameRunnable[] players = new GameRunnable[2];
-
-	String player1 = null;
-	String player2 = null;
 
 	public GameController(Logger logger) {
 		this.logger = logger;
@@ -41,15 +38,13 @@ public class GameController {
 			players[playerCount++] = ga;
 	}
 
-	public void sendMessageTo(String msg, int which) {
-		players[which].sendMsg(msg);
-	}
-
 	public void showBoard() {
 		System.out.println("The board currently");
 		for (int i = 0; i < 9; i++) {
 				System.out.print(board[i]);
-			System.out.println("");
+			if (i == 2 || i == 5 || i == 8) {
+				System.out.println("");
+			}
 		}
 	}
 
@@ -61,7 +56,6 @@ public class GameController {
 				} else {
 					st += board[i];
 				}
-
 		}
 		return st;
 	}
@@ -82,11 +76,11 @@ public class GameController {
 		}
 	}
 	/**
-	 * returns 0 = no winner, 1 player 1, or 2 player 2 wins
+	 * returns -1 = no winner, player index for the winner
 	 */
 	public int checkForWin() {
-		for (int i = 0; i < checks.length; i++) {
-			int result = check(checks[i]);
+		for (int i = 0; i < WIN_CHECKS.length; i++) {
+			int result = check(WIN_CHECKS[i]);
 			if (result != EMPTY) {
 				return result;
 			}
@@ -100,8 +94,7 @@ public class GameController {
 		if (whichPlayer != toMove) throw new WrongTurnException();
 		
 		int index = x + 3*y;
-		
-		if (board[index] != EMPTY) {
+		if (index < 0 || index > 8 || board[index] != EMPTY) {
 			return false; 
 		}	
 		board[index] = whichPlayer;
@@ -109,5 +102,4 @@ public class GameController {
 		nextMover();
 		return true;
 	}
-
 }

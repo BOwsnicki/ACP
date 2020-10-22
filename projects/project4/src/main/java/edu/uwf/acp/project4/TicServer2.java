@@ -44,7 +44,7 @@ public class TicServer2 {
 		if ((request = in.readLine()) != null) {
 			LOGGER.log(Level.INFO, "Message received:" + request);
 			command = request.split(" ");
-			if (!command[0].contentEquals("join")) {
+			if (!command[0].equals("join")) {
 				out.write("Illegal command");
 				return null;
 			}

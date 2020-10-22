@@ -6,27 +6,31 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class GameRunnable implements Runnable {
+	private static final int STATE_RUNNING = 0;
+	private static final int STATE_DRAW = 1;
+	private static final int STATE_WINNING = 2;
+	private static final int STATE_ABANDONED = 3;
+	private int gameState;
+	
 	private int playerIndex;
 	private Socket s;
 	private Scanner in;
 	private PrintWriter out;
 	private GameController controller;
-	private int x;
-	private int y;
 	private int winningIndex;
-	private boolean draw = false;
 
 	public GameRunnable(Socket aSocket, GameController aGame, int index) {
 		s = aSocket;
 		controller = aGame;
 		playerIndex = index;
+		gameState = STATE_RUNNING;
 	}
 
 	public void run() {
 		try {
 			in = new Scanner(s.getInputStream());
 			out = new PrintWriter(s.getOutputStream());
-			doAction();
+			play();
 		} catch (IOException exception) {
 			exception.printStackTrace();
 		} finally {
@@ -37,10 +41,10 @@ public class GameRunnable implements Runnable {
 		}
 	}
 
-	public void doAction() throws IOException {
-		while (true) {
-			if (!in.hasNext())
-				return;
+	public void play() throws IOException {
+		while (gameState == STATE_RUNNING) {
+			// if (!in.hasNext())
+				// return;
 			String command = in.nextLine();
 			if (command.equalsIgnoreCase("QUIT"))
 				return;
@@ -54,38 +58,33 @@ public class GameRunnable implements Runnable {
 		out.flush();
 	}
 
-	/**
-	 * Executes a single command.
-	 * 
-	 * @param command the command to execute
-	 */
 	public void executeCommand(String[] command) {
-		winningIndex = -1;
 		System.out.println("**Command is [" + command[0] + "]" + " by player " + playerIndex);
 
-		switch (command[0]) {
+		switch (command[0].toLowerCase()) {
 		case "board":
 			sendMsg("board " + controller.boardString());
 			return;
 		case "status":
-			if (winningIndex != -1) {
+			if (gameState == STATE_WINNING) {
 				sendMsg("win " + winningIndex);
 				return;
 			}
-			if (draw) {
+			if (gameState == STATE_DRAW) {
 				sendMsg("draw");
 				return;
 			}
+			// else gameState == STATE_RUNNING
 			sendMsg("mover " + controller.getMover());
 			return;
 		case "move":
 			playerIndex = Integer.parseInt(command[1]);
-			x = Integer.parseInt(command[2]);
-			y = Integer.parseInt(command[3]);
+			int x = Integer.parseInt(command[2]);
+			int y = Integer.parseInt(command[3]);
 			System.out.println("Move is player " + playerIndex + " x = " + x + " y = " + y);
 			try {
-				boolean legal = controller.move(playerIndex, x, y);
-				if (!legal) {
+				// Check legality
+				if (!controller.move(playerIndex, x, y)) {
 					sendMsg("Invalid move");
 					return;
 				} else {
@@ -104,12 +103,15 @@ public class GameRunnable implements Runnable {
 		System.out.println("checking for win ...");
 		winningIndex = controller.checkForWin();
 		System.out.println("Win check: " + winningIndex);
-
+		if (winningIndex != -1) {
+			gameState = STATE_WINNING;
+		}
 		if (controller.getTotalMoves() < 9) {
 			System.out.println("Game continues");
+			gameState = STATE_RUNNING;
 		} else {
 			System.out.println("Draw");
-			draw = true;
+			gameState = STATE_DRAW;
 		}
 	}
 

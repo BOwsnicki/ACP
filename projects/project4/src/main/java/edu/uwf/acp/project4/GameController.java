@@ -4,7 +4,13 @@ import java.util.logging.Logger;
 
 public class GameController {
 	private static final int EMPTY = -1;
-	private int[][] board = new int[3][3];
+	private static final int[][] checks = 
+		{
+			{0,1,2}, {3,4,5}, {6,7,8},
+			{0,3,6}, {1,4,7}, {2,5,8},
+			{0,4,8}, {2,4,6}
+	};
+	private int[] board = new int[9];
 	private int playerCount = 0;
 	private int totalMoves = 0;
 	private Logger logger;
@@ -18,9 +24,8 @@ public class GameController {
 	public GameController(Logger logger) {
 		this.logger = logger;
 		this.toMove = 0;
-		for (int i = 0; i < 3; i++)
-			for (int j = 0; j < 3; j++)
-				board[i][j] = EMPTY;
+		for (int i = 0; i < 9; i++)
+				board[i] = EMPTY;
 	}
 
 	public int getMover() {
@@ -42,21 +47,19 @@ public class GameController {
 
 	public void showBoard() {
 		System.out.println("The board currently");
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++)
-				System.out.print(board[i][j]);
+		for (int i = 0; i < 9; i++) {
+				System.out.print(board[i]);
 			System.out.println("");
 		}
 	}
 
 	public String boardString() {
 		String st = "";
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++)
-				if (board[i][j] == EMPTY) {
+		for (int i = 0; i < 9; i++) {
+				if (board[i] == EMPTY) {
 					st += ".";
 				} else {
-					st += board[i][j];
+					st += board[i];
 				}
 
 		}
@@ -67,71 +70,41 @@ public class GameController {
 		return totalMoves;
 	}
 
+	private int check(int[] places) {
+		int comp = board[places[0]];
+		if (comp == EMPTY) {
+			return EMPTY;
+		}
+		if (board[places[1]] == comp && board[places[2]] == comp) {
+			return comp;
+		} else {
+			return EMPTY;
+		}
+	}
 	/**
 	 * returns 0 = no winner, 1 player 1, or 2 player 2 wins
 	 */
 	public int checkForWin() {
-		for (int i = 0; i < 3; i++) {
-			if (checkHoriz(i, 0))
-				return 0;
-			if (checkHoriz(i, 1))
-				return 1;
-			if (checkVert(i, 0))
-				return 0;
-			if (checkVert(i, 1))
-				return 1;
+		for (int i = 0; i < checks.length; i++) {
+			int result = check(checks[i]);
+			if (result != EMPTY) {
+				return result;
+			}
 		}
-		if (checkFirstDiag(0))
-			return 0;
-		if (checkFirstDiag(1))
-			return 1;
-		if (checkSecondDiag(0))
-			return 0;
-		if (checkSecondDiag(1))
-			return 1;
-
-		return -1;
+		return EMPTY;
 	}
-
-	public boolean checkHoriz(int whichRow, int whichPlayer) {
-		for (int j = 0; j < 3; j++)
-			if (board[whichRow][j] != whichPlayer)
-				return false;
-		return true;
-	}
-
-	public boolean checkVert(int whichCol, int whichPlayer) {
-		for (int i = 0; i < 3; i++)
-			if (board[i][whichCol] != whichPlayer)
-				return false;
-		return true;
-	}
-
-	public boolean checkFirstDiag(int whichPlayer) {
-		for (int i = 0; i < 3; i++) {
-			if (board[i][i] != whichPlayer)
-				return false;
-		}
-		return true;
-	}
-
-	public boolean checkSecondDiag(int whichPlayer) {
-		for (int i = 0; i < 3; i++) {
-			if (board[i][2 - i] != whichPlayer)
-				return false;
-		}
-		return true;
-	}
-
+		
 	public boolean move(int whichPlayer, int x, int y) throws WrongTurnException {
 		System.out.println("player " + whichPlayer + " moves x = " + x + " y = " + y);
 		
 		if (whichPlayer != toMove) throw new WrongTurnException();
 		
-		if (board[x][y] != EMPTY) {
+		int index = x + 3*y;
+		
+		if (board[index] != EMPTY) {
 			return false; 
 		}	
-		board[x][y] = whichPlayer;
+		board[index] = whichPlayer;
 		totalMoves++;
 		nextMover();
 		return true;

@@ -1,10 +1,10 @@
-Oct 21, 2020 9:26:16 PM edu.uwf.acp.project4.TicServer2 joining
+Oct 22, 2020 10:09:13 AM edu.uwf.acp.project4.TicServer2 joining
 INFO: Message received:join hugo
-Oct 21, 2020 9:26:16 PM edu.uwf.acp.project4.TicServer2 <init>
+Oct 22, 2020 10:09:13 AM edu.uwf.acp.project4.TicServer2 <init>
 INFO: Client 0 connected
-Oct 21, 2020 9:26:16 PM edu.uwf.acp.project4.TicServer2 <init>
+Oct 22, 2020 10:09:13 AM edu.uwf.acp.project4.TicServer2 <init>
 INFO: Waiting for Client 1
-Oct 21, 2020 9:26:33 PM edu.uwf.acp.project4.TicServer2 joining
+Oct 22, 2020 10:09:23 AM edu.uwf.acp.project4.TicServer2 joining
 INFO: Message received:join helga
-Oct 21, 2020 9:26:33 PM edu.uwf.acp.project4.TicServer2 <init>
+Oct 22, 2020 10:09:23 AM edu.uwf.acp.project4.TicServer2 <init>
 INFO: Client 1 connected

@@ -58,9 +58,11 @@ public class TextClient {
               System.exit(1);
           }
 
+          // Join game
       	  String login = "join " + id;
       	  out.println(login);
       	  System.out.println("Sending: "+login);
+      	  
       	  String response = in.readLine();
       	  System.out.println("server: " + response);
         	  
@@ -74,6 +76,7 @@ public class TextClient {
       		  boolean gameEnded = false;
       		  while (!gameEnded && !myMove) {
       			  Thread.sleep(500);
+      	      	  // This might hang until the second player joins!
       			  System.out.println(STATUS_CMD);
       			  out.println(STATUS_CMD);
       			  response = in.readLine();
@@ -82,8 +85,7 @@ public class TextClient {
       			  case "draw":
       			  case "win": 	gameEnded = true;
       			  				break;
-      			  default:
-      				  			int toMove = getInt(response,1);
+      			  default:		int toMove = getInt(response,1);
       				  			System.out.println(toMove);
       				  			myMove = (myNumber == toMove);
       			  }

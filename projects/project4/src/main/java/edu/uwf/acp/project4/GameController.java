@@ -53,7 +53,11 @@ public class GameController {
 		String st = "";
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++)
-				st += board[i][j] + " ";
+				if (board[i][j] == EMPTY) {
+					st += ".";
+				} else {
+					st += board[i][j];
+				}
 
 		}
 		return st;

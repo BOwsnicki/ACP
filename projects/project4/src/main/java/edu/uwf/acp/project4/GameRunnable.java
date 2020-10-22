@@ -64,6 +64,9 @@ public class GameRunnable implements Runnable {
 		System.out.println("**Command is [" + command[0] + "]" + " by player " + playerIndex);
 
 		switch (command[0]) {
+		case "board":
+			sendMsg("board " + controller.boardString());
+			return;
 		case "status":
 			if (winningIndex != -1) {
 				sendMsg("win " + winningIndex);

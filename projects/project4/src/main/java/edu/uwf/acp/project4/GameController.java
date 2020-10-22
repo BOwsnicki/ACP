@@ -3,6 +3,7 @@ package edu.uwf.acp.project4;
 import java.util.logging.Logger;
 
 public class GameController {
+	private static final int EMPTY = -1;
 	private int[][] board = new int[3][3];
 	private int playerCount = 0;
 	private int totalMoves = 0;
@@ -19,7 +20,7 @@ public class GameController {
 		this.toMove = 0;
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++)
-				board[i][j] = 0;
+				board[i][j] = EMPTY;
 	}
 
 	public int getMover() {
@@ -67,25 +68,25 @@ public class GameController {
 	 */
 	public int checkForWin() {
 		for (int i = 0; i < 3; i++) {
+			if (checkHoriz(i, 0))
+				return 0;
 			if (checkHoriz(i, 1))
 				return 1;
-			if (checkHoriz(i, 2))
-				return 2;
+			if (checkVert(i, 0))
+				return 0;
 			if (checkVert(i, 1))
 				return 1;
-			if (checkVert(i, 2))
-				return 2;
 		}
+		if (checkFirstDiag(0))
+			return 0;
 		if (checkFirstDiag(1))
 			return 1;
-		if (checkFirstDiag(2))
-			return 2;
+		if (checkSecondDiag(0))
+			return 0;
 		if (checkSecondDiag(1))
 			return 1;
-		if (checkSecondDiag(2))
-			return 2;
 
-		return 0;
+		return -1;
 	}
 
 	public boolean checkHoriz(int whichRow, int whichPlayer) {
@@ -123,7 +124,7 @@ public class GameController {
 		
 		if (whichPlayer != toMove) throw new WrongTurnException();
 		
-		if (board[x][y] != 0) {
+		if (board[x][y] != EMPTY) {
 			return false; 
 		}	
 		board[x][y] = whichPlayer;

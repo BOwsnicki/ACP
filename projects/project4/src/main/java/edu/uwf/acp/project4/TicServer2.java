@@ -49,9 +49,9 @@ public class TicServer2 {
 				return null;
 			}
 			if (number == 1) {
-			out.println("Hello " + command[1] + " you are Player 1");
+				out.println("joined " + command[1] + " 0");
 			} else {
-				out.println("Hello " + command[1] + " you are Player 2. Let the game begin!");
+				out.println("joined " + command[1] + " 1");
 			}
 		}
 		// in.close();
@@ -66,27 +66,27 @@ public class TicServer2 {
 			System.out.println("Tic Tac Toe Server Started.");
 
 			while (true) {
-				GameController game = new GameController(LOGGER);
+				GameController controller = new GameController(LOGGER);
 				
 				String name1 = null;
 				Socket s1 = server.accept();
 				while ((name1 = joining(s1,1)) == null) {
 					s1 = server.accept();
 				}
-				LOGGER.log(Level.INFO, "Client 1 connected");
-				GameRunnable action1 = new GameRunnable(s1, game, 0);
-				game.addPlayer(action1);
+				LOGGER.log(Level.INFO, "Client 0 connected");
+				GameRunnable action1 = new GameRunnable(s1, controller, 0);
+				controller.addPlayer(action1);
 
-				LOGGER.log(Level.INFO, "Waiting for Client 2");
+				LOGGER.log(Level.INFO, "Waiting for Client 1");
 
 				String name2 = null;
 				Socket s2 = server.accept();
 				while ((name2 = joining(s2,2)) == null) {
 					s2 = server.accept();
 				}
-				LOGGER.log(Level.INFO, "Client 2 connected");
-				GameRunnable action2 = new GameRunnable(s2, game, 1);
-				game.addPlayer(action2);
+				LOGGER.log(Level.INFO, "Client 1 connected");
+				GameRunnable action2 = new GameRunnable(s2, controller, 1);
+				controller.addPlayer(action2);
 
 				new Thread(action1).start();
 				new Thread(action2).start();

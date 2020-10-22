@@ -6,19 +6,20 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class GameRunnable implements Runnable {
-	private int playerNumber;
+	private int playerIndex;
 	private Socket s;
 	private Scanner in;
 	private PrintWriter out;
-	private GameController game;
+	private GameController controller;
 	private int x;
 	private int y;
-	private int aWinner;
+	private int winningIndex;
+	private boolean draw = false;
 
-	public GameRunnable(Socket aSocket, GameController aGame, int num) {
+	public GameRunnable(Socket aSocket, GameController aGame, int index) {
 		s = aSocket;
-		game = aGame;
-		playerNumber = num;
+		controller = aGame;
+		playerIndex = index;
 	}
 
 	public void run() {
@@ -31,7 +32,8 @@ public class GameRunnable implements Runnable {
 		} finally {
 			try {
 				s.close();
-			} catch (Exception e) {}
+			} catch (Exception e) {
+			}
 		}
 	}
 
@@ -58,82 +60,53 @@ public class GameRunnable implements Runnable {
 	 * @param command the command to execute
 	 */
 	public void executeCommand(String[] command) {
-		aWinner = 0;
-		System.out.println("**Command is [" + command[0] + "]" + " by player " + playerNumber);
+		winningIndex = -1;
+		System.out.println("**Command is [" + command[0] + "]" + " by player " + playerIndex);
 
-		/*
-		if (command[0].compareTo("hello") == 0) {
-			if (game.player1 == null) {
-				game.player1 = new String("player1");
-				System.out.println("our first player is " + game.player1);
-			} else if (game.player2 == null) {
-				game.player2 = new String("player2");
-				System.out.println("our second player is " + game.player2);
-			} else {
-				System.out.println(" we already have two players");
-				out.println("we already have two players");
-				out.flush();
+		switch (command[0]) {
+		case "status":
+			if (winningIndex != -1) {
+				sendMsg("win " + winningIndex);
 				return;
 			}
-			out.println("new player command for player " + playerNumber);
-			out.flush();
+			if (draw) {
+				sendMsg("draw");
+				return;
+			}
+			sendMsg("mover " + controller.getMover());
 			return;
-		}
-		*/
-		if (command[0].equals("move")) {
-			playerNumber = Integer.parseInt(command[1]);
+		case "move":
+			playerIndex = Integer.parseInt(command[1]);
 			x = Integer.parseInt(command[2]);
 			y = Integer.parseInt(command[3]);
-			System.out.println("Move is player " + playerNumber + " x = " + x + " y = " + y);
+			System.out.println("Move is player " + playerIndex + " x = " + x + " y = " + y);
 			try {
-				boolean legal = game.move(playerNumber, x, y);
+				boolean legal = controller.move(playerIndex, x, y);
 				if (!legal) {
-					out.println("Invalid move");
-					out.flush();
+					sendMsg("Invalid move");
 					return;
 				} else {
-					out.println("OK");
-					out.flush();
+					sendMsg("OK");
 				}
-				game.showBoard();
+				controller.showBoard();
 			} catch (WrongTurnException w) {
-				out.println("Wrong turn.");
-				out.flush();
+				sendMsg("Wrong turn.");
 			}
-		}	 else {
-			out.println("Invalid command");
-			out.flush();
+			break;
+		default:
+			sendMsg("Invalid command");
 			return;
 		}
-		System.out.println("checking for win ...");
-		aWinner = game.checkForWin();
-		if (aWinner > 0) {
-			String msg = aWinner + " won!!!! " + x + " " + y;
-			if (playerNumber == 1)
-				game.sendMessageTo(msg, 1);
-			else
-				game.sendMessageTo(msg, 0);
-			out.println(msg);
-			out.flush();
-			System.out.println(aWinner + " won!!!! ");
-		} else if (game.getTotalMoves() < 9) {
-			String msg = "game continues: " + x + " " + y;
-			out.println(msg);
-			out.flush();
-			if (playerNumber == 1)
-				game.sendMessageTo(msg, 1);
-			else
-				game.sendMessageTo(msg, 0);
 
-			System.out.println("game continues");
+		System.out.println("checking for win ...");
+		winningIndex = controller.checkForWin();
+		System.out.println("Win check: " + winningIndex);
+
+		if (controller.getTotalMoves() < 9) {
+			System.out.println("Game continues");
 		} else {
-			String msg = "A draw " + x + " " + y;
-			out.println(msg);
-			out.flush();
-			if (playerNumber == 1)
-				game.sendMessageTo(msg, 1);
-			else
-				game.sendMessageTo(msg, 0);
+			System.out.println("Draw");
+			draw = true;
 		}
 	}
 

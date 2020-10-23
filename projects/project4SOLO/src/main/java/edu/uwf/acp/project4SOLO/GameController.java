@@ -2,8 +2,8 @@ package edu.uwf.acp.project4SOLO;
 
 public class GameController {
 	public static final int EMPTY = -1;
-	private static final int COMPUTER = 0;
-	private static final int OTHER = 1;
+	public static final int COMPUTER = 0;
+	public static final int OTHER = 1;
 	
 	private static final int[][] WIN_CHECKS = 
 		{
@@ -31,16 +31,6 @@ public class GameController {
 
 	public void setPlayer(GameRunnable gr) {
 		player = gr;
-	}
-
-	public void showBoard() {
-		System.out.println("The board currently");
-		for (int i = 0; i < 9; i++) {
-				System.out.print(board[i]);
-			if (i == 2 || i == 5 || i == 8) {
-				System.out.println("");
-			}
-		}
 	}
 
 	public String boardString() {

@@ -16,6 +16,8 @@ public class TextClient {
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
+    private String mySymbol;
+    private String serverSymbol;
 
 	private static int getInt(String response, int index) {
 		String[] split = response.split(" ");
@@ -27,32 +29,22 @@ public class TextClient {
 		return split[0];
 	}
 	
-	private static int[][] getBoard(String board) {
-		int[][] intBoard = new int[3][3];
-		int count = -1;
+	private void showBoard(String board) {
+		int count = 0;
 		for (int row = 0; row < 3; row++) {
 			for (int col = 0; col < 3; col++) {
-				switch (board.charAt(count++)) {
-				case '.': intBoard[row][col] = -1; break;
-				case '0': intBoard[row][col] = 0; break;
-				case '1': intBoard[row][col] = 1; 
-				}
-			}
-		}
-		return intBoard;
-	}
-	
-	private static void showBoard(String board) {
-		int[][] intBoard = getBoard(board);
-		for (int row = 0; row < 3; row++) {
-			for (int col = 0; col < 3; col++) {
-				int piece = intBoard[row][col];
-				if (piece == -1) {
-					System.out.print(" ");					 
+				char piece = board.charAt(count++);
+				if (piece == '.') {
+					System.out.print("|   |");					 
 				} else {
-					System.out.print(piece);
+					String symbol = mySymbol;
+					if (piece == GameController.COMPUTER) {
+						symbol = serverSymbol;
+					}
+					System.out.print("| " + symbol + " |");
 				}
 			}
+			System.out.println();
 		}
 	}
 	
@@ -63,8 +55,16 @@ public class TextClient {
   }
 
   public void sendRequest(String msg) {
+  	  System.out.println("sending: " + msg);
 	  out.println(msg);
 	  out.flush();
+  }
+  
+  private void requestBoard() throws IOException {
+      sendRequest("board");
+      String board = in.readLine();
+      System.out.println("server: " + board);
+      showBoard(board.split(" ")[1]);
   }
   
   public TextClient(String host, int port) {
@@ -91,14 +91,14 @@ public class TextClient {
           // Join game
       	  String command = "play";
       	  sendRequest(command);
-      	  System.out.println("Sending: " + command);
       	  
       	  String response = in.readLine();
       	  System.out.println("server: " + response);
-        	  
+          mySymbol = response.split(" ")[1];
+          serverSymbol = (mySymbol.equals("X") ? "O" : "X"); 
+          System.out.println("symbols: " + mySymbol + " " + serverSymbol);
   		  boolean gameRunning = true;
       	  while (gameRunning) {
-   			  System.out.println(STATUS_CMD);
    			  sendRequest(STATUS_CMD);
    			  response = in.readLine();
    			  System.out.println("server: " + response);
@@ -111,22 +111,19 @@ public class TextClient {
       		  if (!gameRunning) {
       			  break;
       		  }
-           	  System.out.println("Enter move: ");
+           	  requestBoard();
+      		  System.out.print("Enter move: ");
               String userInput = stdIn.readLine();
-              // Exit on 'q' char sent 
-              if ("q".equals(userInput)) {
-                  break;
-              }
-              out.println("move " + userInput);
-              System.out.println("server: " + in.readLine());
-              System.out.println("Sending board request");
-              sendRequest("board");
+
+              sendRequest("move " + userInput);
               System.out.println("server: " + in.readLine());
           }
 
           /** Closing all the resources */
-      	  
+
+       	  requestBoard();
       	  sendRequest("quit");
+      	  System.out.println("server: " + in.readLine());
           out.close();
           in.close();
           stdIn.close();

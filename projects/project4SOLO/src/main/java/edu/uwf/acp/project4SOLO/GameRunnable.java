@@ -3,6 +3,7 @@ package edu.uwf.acp.project4SOLO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Random;
 import java.util.Scanner;
 
 public class GameRunnable implements Runnable {
@@ -10,6 +11,8 @@ public class GameRunnable implements Runnable {
 	private Scanner in;
 	private PrintWriter out;
 	private GameController controller;
+	private String clientSymbol;
+	private String mySymbol;
 
 	public GameRunnable(Socket socket, GameController controller) {
 		this.socket = socket;
@@ -21,7 +24,7 @@ public class GameRunnable implements Runnable {
 			in = new Scanner(socket.getInputStream());
 			out = new PrintWriter(socket.getOutputStream());
 			play();
-		} catch (IOException exception) {
+		} catch (Exception exception) {
 			exception.printStackTrace();
 		} finally {
 			try {
@@ -31,13 +34,15 @@ public class GameRunnable implements Runnable {
 		}
 	}
 
-	public void play() throws IOException {
+	public void play() throws IOException, InterruptedException {
 		while (true) {
 			// if (!in.hasNext())
 			// return;
 			String command = in.nextLine();
 			if (command.equalsIgnoreCase("quit")) {
 				System.out.println("Received quit. Terminating.");
+				sendMsg("quit");
+				Thread.sleep(1000);
 				return;
 			} else {
 				executeCommand(command.split(" "));
@@ -68,8 +73,6 @@ public class GameRunnable implements Runnable {
 				sendMsg("ended");
 			}
 		}
-		controller.showBoard();
-
 	}
 
 	public void executeCommand(String[] command) {
@@ -77,7 +80,15 @@ public class GameRunnable implements Runnable {
 
 		switch (command[0].toLowerCase()) {
 		case "play":
-			sendMsg("move");
+			clientSymbol = "X";
+			if (new Random().nextBoolean()) {
+				System.out.println("Server goes first");
+				controller.moveServer();
+				controller.updateState();
+				clientSymbol = "O";
+			}
+			mySymbol = (clientSymbol.equals("X") ? "O" : "X");
+			sendMsg("symbol " + clientSymbol);
 			return;
 		case "board":
 			sendMsg("board " + controller.boardString());

@@ -6,40 +6,42 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class GameRunnable implements Runnable {
-	private Socket s;
+	private Socket socket;
 	private Scanner in;
 	private PrintWriter out;
 	private GameController controller;
 
-	public GameRunnable(Socket aSocket, GameController aGame) {
-		s = aSocket;
-		controller = aGame;
+	public GameRunnable(Socket socket, GameController controller) {
+		this.socket = socket;
+		this.controller = controller;
 	}
 
 	public void run() {
 		try {
-			in = new Scanner(s.getInputStream());
-			out = new PrintWriter(s.getOutputStream());
+			in = new Scanner(socket.getInputStream());
+			out = new PrintWriter(socket.getOutputStream());
 			play();
 		} catch (IOException exception) {
 			exception.printStackTrace();
 		} finally {
 			try {
-				s.close();
+				socket.close();
 			} catch (Exception e) {
 			}
 		}
 	}
 
 	public void play() throws IOException {
-		while (controller.gameState == GameController.STATE_RUNNING) {
+		while (true) {
 			// if (!in.hasNext())
-				// return;
+			// return;
 			String command = in.nextLine();
-			if (command.equalsIgnoreCase("QUIT"))
+			if (command.equalsIgnoreCase("quit")) {
+				System.out.println("Received quit. Terminating.");
 				return;
-			else
+			} else {
 				executeCommand(command.split(" "));
+			}
 		}
 	}
 
@@ -48,13 +50,35 @@ public class GameRunnable implements Runnable {
 		out.flush();
 	}
 
+	private void doMove(int index) {
+		System.out.println("Move: " + index);
+
+		// Check legality
+		if (!controller.moveOther(index)) {
+			sendMsg("Invalid move");
+			return;
+		} else {
+			controller.updateState();
+			if (controller.gameState == GameController.STATE_RUNNING) {
+				// Good for another move
+				int serverMove = controller.moveServer();
+				controller.updateState();
+				sendMsg("server " + serverMove);
+			} else {
+				sendMsg("ended");
+			}
+		}
+		controller.showBoard();
+
+	}
+
 	public void executeCommand(String[] command) {
 		System.out.println("**Command is [" + command[0] + "]");
 
 		switch (command[0].toLowerCase()) {
 		case "play":
 			sendMsg("move");
-			return;		
+			return;
 		case "board":
 			sendMsg("board " + controller.boardString());
 			return;
@@ -72,23 +96,11 @@ public class GameRunnable implements Runnable {
 			return;
 		case "move":
 			int index = Integer.parseInt(command[1]);
-			System.out.println("Move: " + index);
-
-				// Check legality
-				if (!controller.moveOther(index)) {
-					sendMsg("Invalid move");
-					return;
-				} else {
-					controller.updateState();
-					sendMsg("OK");
-				}
-				controller.showBoard();
-
-			break;
+			doMove(index);
+			return;
 		default:
 			sendMsg("Invalid command");
 			return;
 		}
 	}
-
 }

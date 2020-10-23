@@ -1,9 +1,6 @@
 package edu.uwf.acp.project4SOLO;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -19,8 +16,8 @@ public class TicServer2 {
 			while (true) {
 				GameController controller = new GameController();
 				
-				Socket s1 = server.accept();
-				GameRunnable player = new GameRunnable(s1, controller);
+				Socket socket = server.accept();
+				GameRunnable player = new GameRunnable(socket, controller);
 				controller.setPlayer(player);
 				new Thread(player).start();
 			}

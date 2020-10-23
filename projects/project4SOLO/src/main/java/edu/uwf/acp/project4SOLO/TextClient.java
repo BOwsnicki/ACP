@@ -9,11 +9,13 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
 public class TextClient {
 	private static final String STATUS_CMD = "status";
-	
+	private BufferedReader stdIn;
+    private Socket socket;
+    private PrintWriter out;
+    private BufferedReader in;
 
 	private static int getInt(String response, int index) {
 		String[] split = response.split(" ");
@@ -56,21 +58,22 @@ public class TextClient {
 	
   public static void main(String args[]) {
       String host = "127.0.0.1";
-      Scanner in = new Scanner(System.in);
       int port = 5000;
-      System.out.print("ID: ");
-      String id = in.nextLine();
-      // in.close();
-      new TextClient(host, port, id);
+      new TextClient(host, port);
   }
 
-  public TextClient(String host, int port, String id) {
+  public void sendRequest(String msg) {
+	  out.println(msg);
+	  out.flush();
+  }
+  
+  public TextClient(String host, int port) {
       try {
-    	  BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+    	  stdIn = new BufferedReader(new InputStreamReader(System.in));
     	  System.out.println("Connecting to host " + host + " on port " + port + ".");
-          Socket socket = null;
-          PrintWriter out = null;
-          BufferedReader in = null;
+          socket = null;
+          out = null;
+          in = null;
 
           try {
               socket = new Socket(host, port);
@@ -87,7 +90,7 @@ public class TextClient {
 
           // Join game
       	  String command = "play";
-      	  out.println(command);
+      	  sendRequest(command);
       	  System.out.println("Sending: " + command);
       	  
       	  String response = in.readLine();
@@ -95,9 +98,8 @@ public class TextClient {
         	  
   		  boolean gameRunning = true;
       	  while (gameRunning) {
-      		  // Wait until if it's my move
    			  System.out.println(STATUS_CMD);
-   			  out.println(STATUS_CMD);
+   			  sendRequest(STATUS_CMD);
    			  response = in.readLine();
    			  System.out.println("server: " + response);
    			  switch (getCmd(response)) {
@@ -106,7 +108,9 @@ public class TextClient {
       			  				break;
       			  default:		
    			  }
-      		  
+      		  if (!gameRunning) {
+      			  break;
+      		  }
            	  System.out.println("Enter move: ");
               String userInput = stdIn.readLine();
               // Exit on 'q' char sent 
@@ -116,11 +120,13 @@ public class TextClient {
               out.println("move " + userInput);
               System.out.println("server: " + in.readLine());
               System.out.println("Sending board request");
-              out.println("board");
+              sendRequest("board");
               System.out.println("server: " + in.readLine());
           }
 
           /** Closing all the resources */
+      	  
+      	  sendRequest("quit");
           out.close();
           in.close();
           stdIn.close();

@@ -87,15 +87,16 @@ public class GameController {
 		System.out.println("checking for win ...");
 		winningIndex = checkForWin();
 		System.out.println("Win check: " + winningIndex);
-		if (winningIndex != -1) {
+		if (winningIndex != EMPTY) {
 			gameState = STATE_WINNING;
-		}
-		if (getTotalMoves() < 9) {
-			System.out.println("Game continues");
-			gameState = STATE_RUNNING;
 		} else {
-			System.out.println("Draw");
-			gameState = STATE_DRAW;
+			if (getTotalMoves() < 9) {
+				System.out.println("Game continues");
+				gameState = STATE_RUNNING;
+			} else {
+				System.out.println("Draw");
+				gameState = STATE_DRAW;
+			}
 		}
 		System.out.println("State " + gameState);
 	}
@@ -103,7 +104,6 @@ public class GameController {
 	
 	public boolean moveOther(int index) {
 		System.out.println("player moves: " + index);
-		
 		if (index < 0 || index > 8 || board[index] != EMPTY) {
 			return false; 
 		}	
@@ -116,6 +116,7 @@ public class GameController {
 	public int moveServer() {
 		for (int i = 0; i < 9; i++) {
 			if (board[i] == EMPTY) {
+				board[i] = COMPUTER;
 				return i;
 			}
 		}

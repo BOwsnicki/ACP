@@ -44,6 +44,8 @@ public class App extends Application {
 	private String mySymbol;
 	private String serverSymbol;
 	
+	private String localBoard;
+	
 	private Canvas mainCanvas;
 
 	public void sendRequest(String msg) {
@@ -148,7 +150,19 @@ public class App extends Application {
    			default:
    		}
    		requestBoard();
-      	}
+    }
+	
+	private static char positionValue(String board, int x, int y) {
+		return board.charAt(3*x+y);
+	}
+	
+	private void clientMove(int x, int y) throws IOException {
+		if (positionValue(localBoard,x,y) != EMPTY_CHAR) {
+			System.err.println(x + "," + y + " occupied");
+			return;
+		}
+        sendRequest("move " + (3*x+y));
+        System.out.println("server: " + in.readLine());
 	}
 	
 	public EventHandler<MouseEvent> getCanvasClick() {
@@ -157,11 +171,13 @@ public class App extends Application {
 				int x = (int)Math.round(e.getX())/100;
 				int y = (int)Math.round(e.getY())/100;
 				System.out.println(x + " " + y);
+				clientMove(x,y);
 			}
 		};
 	}
 	
       	private void showBoard(String board) {
+      		localBoard = board;
     		drawBoard();
     		drawPlayers(board);      		
       	}

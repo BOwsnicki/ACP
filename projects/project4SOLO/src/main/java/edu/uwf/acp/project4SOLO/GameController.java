@@ -79,8 +79,8 @@ public class GameController {
 		System.out.println("Win check: " + winningIndex);
 		if (winningIndex != EMPTY) {
 			gameState = STATE_WINNING;
-		} else {
-			if (getTotalMoves() < 9) {
+		} else { System.out.println("*** " + totalMoves);
+			if (totalMoves < 9) {
 				System.out.println("Game continues");
 				gameState = STATE_RUNNING;
 			} else {
@@ -107,6 +107,8 @@ public class GameController {
 		for (int i = 0; i < 9; i++) {
 			if (board[i] == EMPTY) {
 				board[i] = COMPUTER;
+				totalMoves++;
+				updateState();
 				return i;
 			}
 		}

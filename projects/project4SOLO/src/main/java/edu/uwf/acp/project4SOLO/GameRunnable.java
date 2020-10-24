@@ -67,7 +67,6 @@ public class GameRunnable implements Runnable {
 			if (controller.gameState == GameController.STATE_RUNNING) {
 				// Good for another move
 				int serverMove = controller.moveServer();
-				controller.updateState();
 				sendMsg("server " + serverMove);
 			} else {
 				sendMsg("ended");

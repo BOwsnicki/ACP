@@ -43,7 +43,7 @@ public class App extends Application {
 	private BufferedReader in;
 	private String mySymbol;
 	private String serverSymbol;
-	
+	private boolean connected;
 	private String localBoard;
 	
 	private Canvas mainCanvas;
@@ -67,7 +67,11 @@ public class App extends Application {
 		gc.setFont(new Font("Courier", 72));
 		gc.clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
 
-		gc.setStroke(Color.BLACK);
+		if (connected) {
+			gc.setStroke(Color.BLACK);
+		} else {
+			gc.setStroke(Color.RED);
+		}
 		gc.strokeRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
 
 		gc.strokeLine(0,100,300,100);
@@ -103,7 +107,7 @@ public class App extends Application {
 		drawBoard();
 		grid.add(mainCanvas, 1, 0);
 
-		Button startButton = new Button("Start");
+		Button startButton = new Button("Connect");
 		EventHandler<ActionEvent> start = connectAndPlay();
 		startButton.setOnAction(start);
 
@@ -118,6 +122,7 @@ public class App extends Application {
 
 		primaryStage.setScene(new Scene(root));
 		primaryStage.show();
+		connected = false;
 	}
 
 	private void doProlog() throws IOException {
@@ -138,31 +143,46 @@ public class App extends Application {
 		doProlog();
         
         // 2. Get going
-        boolean gameRunning = true;
+        connected = true;
    		// 2a. Check if we really have game here
    		sendRequest("status");
    		String response = in.readLine();
    		System.out.println("server: " + response);
-   		switch (response.split(" ")[0]) {
-   			case "draw":
-   			case "win": 	gameRunning = false;
-   							break;
-   			default:
-   		}
    		requestBoard();
     }
 	
 	private static char positionValue(String board, int x, int y) {
-		return board.charAt(3*x+y);
+		return board.charAt(3*y+x);
+	}
+	
+	private void warning(String text) {
+		System.err.println("Warning: " + text);
 	}
 	
 	private void clientMove(int x, int y) throws IOException {
-		if (positionValue(localBoard,x,y) != EMPTY_CHAR) {
-			System.err.println(x + "," + y + " occupied");
+		if (!connected) {
+			warning("Not connected");
 			return;
 		}
-        sendRequest("move " + (3*x+y));
+		if (positionValue(localBoard,x,y) != EMPTY_CHAR) {
+			warning(x + "," + y + " occupied");
+			return;
+		}
+        sendRequest("move " + (3*y+x));
         System.out.println("server: " + in.readLine());
+        
+        requestBoard();
+        sendRequest("status");
+        String status = in.readLine();
+        System.out.println("server: " + status);  
+        switch (status.split(" ")[0]) {
+        case "win":
+        case "draw":
+        	connected = false;
+        	requestBoard();
+        	sendRequest("quit");
+        	in.readLine();
+        }
 	}
 	
 	public EventHandler<MouseEvent> getCanvasClick() {
@@ -171,7 +191,12 @@ public class App extends Application {
 				int x = (int)Math.round(e.getX())/100;
 				int y = (int)Math.round(e.getY())/100;
 				System.out.println(x + " " + y);
-				clientMove(x,y);
+				try {
+					clientMove(x,y);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		};
 	}

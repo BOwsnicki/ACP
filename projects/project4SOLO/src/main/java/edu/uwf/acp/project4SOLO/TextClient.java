@@ -38,7 +38,7 @@ public class TextClient {
 					System.out.print("|   |");					 
 				} else {
 					String symbol = mySymbol;
-					if (piece == GameController.COMPUTER) {
+					if (piece == '0' + GameController.COMPUTER) {
 						symbol = serverSymbol;
 					}
 					System.out.print("| " + symbol + " |");

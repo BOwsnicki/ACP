@@ -46,6 +46,21 @@ public class DBRunnable implements Runnable {
 		}
 	}
 	
+	private String processInsert(String title,String artist,String mood) {
+		return "ok";
+	}
+	
+	private String processRequest(String request) {
+		// Syntax: 	get : angry
+		//			post: Good Life : One Republic : happy 
+		String[] parsed = request.split(":");
+		switch (parsed[0].toLowerCase()) {
+		case "get"  :	return processQuery(parsed[1].trim());
+		case "post" :	return processInsert(parsed[1].trim(),parsed[2].trim(),parsed[3].trim());
+		default:		return "unknown";
+		}
+	}
+	
     public void run() {
         Scanner in = null;
         PrintWriter out = null;
@@ -57,7 +72,7 @@ public class DBRunnable implements Runnable {
             String request;
             while (((request = in.nextLine()) != null) && !request.equalsIgnoreCase("quit")) {
             	System.out.println("Message received:" + request);
-            	String response = processQuery(request);
+            	String response = processRequest(request);
             	System.out.println("Responding:" + response);
                 out.println(response);
                 out.flush();

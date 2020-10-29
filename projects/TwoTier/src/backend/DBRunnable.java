@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import model.Song;
+
 public class DBRunnable implements Runnable {
 	private static final String QUERY_STRING = "SELECT * FROM Songs WHERE mood = ?";
 	private static final String INSERT_STRING = "INSERT INTO Songs VALUES (?, ?, ?)";
@@ -26,19 +28,21 @@ public class DBRunnable implements Runnable {
 	
 	private String processQuery(String mood) {
 		synchronized (connection) { // bit wide...
-			String result = "{";
+			String result = "[";
 			try {
 				query.setString(1,mood);
 				ResultSet rs = query.executeQuery();
-				boolean first = true; 
+				boolean first = true;
 				while(rs.next()){ 
+					Song s = new Song(rs.getString(1).trim(),rs.getString(2).trim(),rs.getString(3).trim());
 					if (!first) {
 						result += ", ";
+					} else {
+						first = false;
 					}
-					result += "(" + rs.getString(1).trim() + ", " + rs.getString(2).trim() + ", " + rs.getString(3).trim() + ")";
-					first = false;  
+					result += s.toString();
 				}
-				result += "}";
+				result += "]";
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -64,11 +68,11 @@ public class DBRunnable implements Runnable {
 	
 	private String processRequest(String request) {
 		// Syntax: 	get : angry
-		//			post: Good Life : One Republic : happy 
+		//			add: Good Life : One Republic : happy 
 		String[] parsed = request.split(":");
 		switch (parsed[0].trim().toLowerCase()) {
 		case "get"  :	return processQuery(parsed[1].trim());
-		case "post" :	return processInsert(parsed[1].trim(),parsed[2].trim(),parsed[3].trim());
+		case "add" :	return processInsert(parsed[1].trim(),parsed[2].trim(),parsed[3].trim());
 		default:		return "unknown";
 		}
 	}

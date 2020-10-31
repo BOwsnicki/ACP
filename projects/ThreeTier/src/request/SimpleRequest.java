@@ -5,8 +5,8 @@ public class SimpleRequest {
 	public static final int POST = 1;
 	
 	// Factory method!
-	public static SimpleRequest fromString(String jsonString) {
-		return J2Request.fromJSONString(jsonString);
+	public static SimpleRequest fromString(String rep) {
+		return new SimpleRequest(rep);
 	}
 	
 	private int method;
@@ -14,6 +14,14 @@ public class SimpleRequest {
 	public SimpleRequest(int method, String arg) {
 		this.method = method;
 		this.arg = arg;
+	}
+	
+	public SimpleRequest(String rep) {
+		// Strip parentheses
+		String stripped = rep.substring(1,rep.length()-1);
+		String[] split = stripped.split("#");
+		method = Integer.parseInt(split[0]);
+		arg = split[1];
 	}
 	
 
@@ -32,6 +40,17 @@ public class SimpleRequest {
 	
 	@Override
 	public String toString() {
-		return J2Request.toJSONString(this);
+		return "(" + method + "#" + arg + ")";
+	}
+	
+	
+	
+	public static void main(String[] args) {
+		SimpleRequest sr = new SimpleRequest(SimpleRequest.GET,"mood = angry");
+		// SimpleRequest sr = new SimpleRequest(SimpleRequest.POST,"{\"title\":\"Good Life\",\"artist\":\"One Republic\",\"mood\":\"happy\"}");
+		String srep = sr.toString();
+		System.out.println(srep);
+		SimpleRequest sr2 = SimpleRequest.fromString(srep);
+		System.out.println(sr2);
 	}
 }

@@ -7,7 +7,7 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 
-// {"method":0,"arg":"(mood = angry)"}
+// {"method":0,"arg":"mood = angry"}
 // {"method":1,"arg":"(Good Life,One Republic,happy)"}
 
 // package visible on purpose!
@@ -25,14 +25,5 @@ class J2Request {
 					add("arg", req.getArg());
 		JsonObject reqObject = songBuilder.build();
 		return reqObject.toString();
-	}
-	
-	public static void main(String[] args) {
-		SimpleRequest sr = new SimpleRequest(SimpleRequest.GET,"mood = angry");
-		// SimpleRequest sr = new SimpleRequest(SimpleRequest.POST,"(Good Life,One Republic,happy)");
-		String srep = sr.toString();
-		System.out.println(srep);
-		SimpleRequest sr2 = SimpleRequest.fromString(srep);
-		System.out.println(sr2);
 	}
 }

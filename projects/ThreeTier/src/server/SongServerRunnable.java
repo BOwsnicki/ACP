@@ -12,18 +12,27 @@ public class SongServerRunnable extends ServerRunnable {
 	}
 
 	@Override
-	protected SimpleResponse processGET(SimpleRequest req) {
-		String arg = req.getArg();
+	protected SimpleResponse processGET(SimpleRequest request) {
+		String arg = request.getArg();
 		System.out.println("GET " + arg);
-		
-		return null;
+		// mood = angry --> get : mood = 'angry'
+		String[] reqSplit = arg.toString().split(" ");
+		String dbRequest = "get # " + reqSplit[0].trim() + " = '" + reqSplit[2].trim() + "'"; 
+		System.out.println("DB Req: " + dbRequest);	
+		String dbResponse = sendDBQuery(dbRequest);
+		return new SimpleResponse(SimpleResponse.STATUS_OK,dbResponse);
 	}
 
 	@Override
-	protected SimpleResponse processPOST(SimpleRequest req) {
-		String arg = req.getArg();
+	protected SimpleResponse processPOST(SimpleRequest request) {
+		String arg = request.getArg();
 		System.out.println("POST " + arg);
-		return null;
+		// {"title":"Good Life","artist":"One Republic","mood":"happy"} -->
+		//    insert : {"title":"Good Life","artist":"One Republic","mood":"happy"}
+		String dbRequest = "insert # " + arg;
+		System.out.println("DB Req: " + dbRequest);	
+		String dbResponse = sendDBQuery(dbRequest);
+		return new SimpleResponse(SimpleResponse.STATUS_OK,dbResponse);
 	}
 
 }

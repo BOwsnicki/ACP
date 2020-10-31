@@ -21,7 +21,6 @@ public abstract class ServerRunnable implements Runnable {
 	
 
 	protected abstract SimpleResponse processGET(SimpleRequest req);
-
 	protected abstract SimpleResponse processPOST(SimpleRequest req);
 
 	public ServerRunnable(Socket clientSocket, Socket dbSocket) {
@@ -30,8 +29,13 @@ public abstract class ServerRunnable implements Runnable {
 		this.dbSocket = dbSocket;
 	}
 
+	protected String sendDBQuery(String query) {
+		dbWriter.println(query);
+		dbWriter.flush();
+		return dbScanner.nextLine();
+	}
 	
-	private void sendResponse(SimpleResponse resp) {
+	protected void sendResponse(SimpleResponse resp) {
 		clientWriter.println(resp);
 		clientWriter.flush();
 	}

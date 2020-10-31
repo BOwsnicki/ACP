@@ -7,6 +7,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+// (1#{"title":"Good Life","artist":"One Republic","mood":"happy"})
+// (0#mood = angry)
+
 public class LogicClient {
 	private static final int LOGIC_PORT = 7878;
   

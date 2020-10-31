@@ -7,31 +7,33 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 
 import model.Song;
 
 public class DBRunnable implements Runnable {
-	private static final String QUERY_STRING = "SELECT * FROM Songs WHERE mood = ?";
-	private static final String INSERT_STRING = "INSERT INTO Songs VALUES (?, ?, ?)";
+	private static final String QUERY_STRING = "SELECT * FROM Songs WHERE ";
+	private static final String INSERT_STRING = "INSERT INTO Songs VALUES ";
 	
 	private Socket socket;
 	private Connection connection;
 	
-	private PreparedStatement query;
-	private PreparedStatement insert;
+	private Statement query;
+	private Statement insert;
 	
 	public DBRunnable(Connection connection, Socket socket) {
 		this.socket = socket;
 		this.connection = connection;
 	}
 	
-	private String processQuery(String mood) {
+	private String processQuery(String whereClause) {
 		synchronized (connection) { // bit wide...
 			String result = "[";
 			try {
-				query.setString(1,mood);
-				ResultSet rs = query.executeQuery();
+				String effectiveQuery = QUERY_STRING + whereClause;
+				System.out.println("|" + effectiveQuery + "|");
+				ResultSet rs = query.executeQuery(effectiveQuery);
 				boolean first = true;
 				while(rs.next()){ 
 					Song s = new Song(rs.getString(1).trim(),rs.getString(2).trim(),rs.getString(3).trim());
@@ -50,13 +52,12 @@ public class DBRunnable implements Runnable {
 		}
 	}
 	
-	private String processInsert(String title,String artist,String mood) {
+	private String processInsert(String tuple) {
 		synchronized (connection) { // bit wide..
 			try {
-			insert.setString(1,title);
-			insert.setString(2,artist);
-			insert.setString(3,mood);
-			int rowsAffected = insert.executeUpdate();
+			String effectiveQuery = INSERT_STRING + tuple;
+			System.out.println("|" + effectiveQuery + "|");
+			int rowsAffected = insert.executeUpdate(effectiveQuery);
 			return "insert: " + rowsAffected;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -67,13 +68,13 @@ public class DBRunnable implements Runnable {
 	}
 	
 	private String processRequest(String request) {
-		// Syntax: 	get : angry
-		//			add: Good Life : One Republic : happy 
+		// Syntax: 	get : mood = 'angry'
+		//			insert: ('Good Life','One Republic','happy') 
 		String[] parsed = request.split(":");
 		switch (parsed[0].trim().toLowerCase()) {
-		case "get"  :	return processQuery(parsed[1].trim());
-		case "add" :	return processInsert(parsed[1].trim(),parsed[2].trim(),parsed[3].trim());
-		default:		return "unknown";
+		case "get"  	:	return processQuery(parsed[1].trim());
+		case "insert" 	:	return processInsert(parsed[1].trim());
+		default:			return "unknown";
 		}
 	}
 	
@@ -81,8 +82,8 @@ public class DBRunnable implements Runnable {
         Scanner in = null;
         PrintWriter out = null;
         try {
-    		query = connection.prepareStatement(QUERY_STRING);
-        	insert = connection.prepareStatement(INSERT_STRING);
+    		query = connection.createStatement();
+        	insert = connection.createStatement();
             in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream());
             String request;

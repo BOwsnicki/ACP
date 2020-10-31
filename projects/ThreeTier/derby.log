@@ -1,10 +1,10 @@
 ----------------------------------------------------------------
-Wed Oct 28 10:47:22 CDT 2020:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0175-6fe4-6a73-000003872fb0 
+Sat Oct 31 14:39:08 CDT 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0175-802b-afd6-000003804218 
 on database directory /home/cop4856/eclipse-workspace/ThreeTier/Songs with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@55054057 
 Loaded from file:/home/cop4856/.m2/repository/org/apache/derby/derby/10.12.1.1/derby-10.12.1.1.jar
 java.vendor=Ubuntu
-java.runtime.version=11.0.8+10-post-Ubuntu-0ubuntu120.04
+java.runtime.version=11.0.9+11-Ubuntu-0ubuntu1.20.04
 user.dir=/home/cop4856/eclipse-workspace/ThreeTier
 os.name=Linux
 os.arch=amd64

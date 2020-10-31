@@ -14,7 +14,7 @@ public class DBClient {
       try {
           System.out.println("Connecting to host " + host + " on port " + DB_PORT + ".");
           System.out.println("Enter message, q to quit");
-          Socket echoSocket = null;
+          Socket dbSocket = null;
           PrintWriter out = null;
           BufferedReader in = null;
           
@@ -22,9 +22,9 @@ public class DBClient {
         	  // Get a socket from the server
         	  // Create I/O instances from socket
         	  // Fill in
-              echoSocket = new Socket(host, DB_PORT);
-              out = new PrintWriter(echoSocket.getOutputStream(), true);
-              in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
+              dbSocket = new Socket(host, DB_PORT);
+              out = new PrintWriter(dbSocket.getOutputStream(), true);
+              in = new BufferedReader(new InputStreamReader(dbSocket.getInputStream()));
           } catch (UnknownHostException e) {
               System.out.println("Unknown host: " + host);
               System.exit(1);
@@ -55,7 +55,7 @@ public class DBClient {
           out.close();
           in.close();
           stdIn.close();
-          echoSocket.close();
+          dbSocket.close();
       } catch (Exception e) {
           e.printStackTrace();
       }

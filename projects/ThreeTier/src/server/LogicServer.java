@@ -23,7 +23,7 @@ public class LogicServer {
             System.out.println("Server started on port " + SERVER_PORT);
             while (true) {
                 Socket socket = server.accept();
-                Thread t = new Thread(new ServerRunnable(socket,dbSocket));
+                Thread t = new Thread(new SongServerRunnable(socket,dbSocket));
                 t.start();
             }
         } catch (IOException ex) {

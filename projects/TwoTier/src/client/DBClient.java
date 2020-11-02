@@ -7,6 +7,11 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+/*
+ 	get # mood = 'happy'
+ 	insert # {"title":"Good Life","artist":"One Republic","mood":"happy"}
+ */
+
 public class DBClient {
 	private static final int DB_PORT = 7070;
   

@@ -52,25 +52,28 @@ public class DBRunnable implements Runnable {
 		}
 	}
 	
-	private String processInsert(String tuple) {
+	private String processInsert(String jsonString) {
 		synchronized (connection) { // bit wide..
 			try {
-			String effectiveQuery = INSERT_STRING + tuple;
-			System.out.println("|" + effectiveQuery + "|");
-			int rowsAffected = insert.executeUpdate(effectiveQuery);
-			return "insert: " + rowsAffected;
-			} catch (Exception e) {
-				e.printStackTrace();
-				return "insert: fail";
+				Song newSong = Song.fromString(jsonString);
+				String effectiveQuery = INSERT_STRING + 
+						"('" + newSong.getTitle() + "','" + newSong.getArtist() 
+						+ "','" + newSong.getMood() + "')";
+				System.out.println("|" + effectiveQuery + "|");
+				int rowsAffected = insert.executeUpdate(effectiveQuery);
+				return "{" + rowsAffected + "}";
+				} catch (Exception e) {
+					e.printStackTrace();
+					return "{}";
+				}
 			}
-		}
 
 	}
 	
 	private String processRequest(String request) {
-		// Syntax: 	get : mood = 'angry'
-		//			insert: ('Good Life','One Republic','happy') 
-		String[] parsed = request.split(":");
+		// Syntax: 	get # mood = 'angry' --> JSON ARRAY of Songs
+		//			insert # JSON Song --> { outcome } 
+		String[] parsed = request.split("#");
 		switch (parsed[0].trim().toLowerCase()) {
 		case "get"  	:	return processQuery(parsed[1].trim());
 		case "insert" 	:	return processInsert(parsed[1].trim());
@@ -87,7 +90,9 @@ public class DBRunnable implements Runnable {
             in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream());
             String request;
-            while (((request = in.nextLine()) != null) && !request.equalsIgnoreCase("quit")) {
+            // while (((request = in.nextLine()) != null)) {
+            while (true) {
+            	request = in.nextLine();
             	System.out.println("Message received:" + request);
             	String response = processRequest(request);
             	System.out.println("Responding:" + response);
@@ -98,7 +103,7 @@ public class DBRunnable implements Runnable {
         	System.err.println("Unable to get streams from client");
         } finally {
             try {
-            	System.out.println("\"quit\" received. Terminating.");
+            	System.out.println("Terminating.");
                 in.close();
                 out.close();
                 socket.close();

@@ -12,14 +12,13 @@ public class Song {
 	private String mood;
 	
 	// Factory method!
-	public Song createSong(String jsonString) {
+	public static Song fromString(String jsonString) {
 		return J2Song.fromJSONString(jsonString);
 	}
 	
 	// For decoration atm
 	public int persist(Connection c) throws SQLException {
-		String INSERT_STRING = "INSERT INTO Songs VALUES (?, ?, ?)";
-		PreparedStatement p = c.prepareStatement(INSERT_STRING);
+		PreparedStatement p = c.prepareStatement("INSERT INTO Songs VALUES (?, ?, ?)");
 		p.setString(1,title);
 		p.setString(2,artist);
 		p.setString(3,mood);

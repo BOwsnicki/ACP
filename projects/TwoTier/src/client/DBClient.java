@@ -8,8 +8,10 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 /*
- 	get # mood = 'happy'
+ 	get # {"mood": "happy"}
+ 	get # {"artist": "The Civil Wars"}
  	insert # {"title":"Good Life","artist":"One Republic","mood":"happy"}
+ 	delete # {"artist":"One Republic"}
  */
 
 public class DBClient {

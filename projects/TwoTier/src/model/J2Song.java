@@ -26,11 +26,9 @@ class J2Song {
 	}
 	
 	public static void main(String[] args) {
-		Song s = new Song("Good Life","One Republic","happy");
+		Song s = new Song("So what!","Pink","angry");
 		System.out.println(s);
-		String j = "{\"title\":\"Good Life\",\"artist\":\"One Republic\",\"mood\":\"happy\"}";
-		System.out.println(j);
-		s = Song.fromString(j);
+		s = new Song("Good Life","One Republic","happy");
 		System.out.println(s);
 	}
 }

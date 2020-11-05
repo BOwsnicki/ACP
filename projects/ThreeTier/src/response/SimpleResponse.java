@@ -1,7 +1,5 @@
 package response;
 
-import request.SimpleRequest;
-
 public class SimpleResponse {
 	public static final int STATUS_OK = 200;
 	public static final int STATUS_BAD_REQUEST = 400;

@@ -3,10 +3,6 @@ package server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 public class LogicServer {
 	private static final int SERVER_PORT = 7878;
@@ -14,8 +10,7 @@ public class LogicServer {
 	private static final String DB_HOST = "127.0.0.1";
 	
     public static void main(String[] args) {
-        ServerSocket server = null;
-        
+        ServerSocket server = null;        
         try {
         	Socket dbSocket = new Socket(DB_HOST, DB_PORT);
             // Obtain server socket
@@ -23,8 +18,12 @@ public class LogicServer {
             System.out.println("Server started on port " + SERVER_PORT);
             while (true) {
                 Socket socket = server.accept();
-                Thread t = new Thread(new SongServerRunnable(socket,dbSocket));
-                t.start();
+                // This is issue #1
+                // The server thread is only able to work with "song resources
+                // We should really get the request, check the resource
+                //         and then select the correct server thread type
+                // Always something more to do...
+                new Thread(new SongServerRunnable(socket,dbSocket)).start();
             }
         } catch (IOException ex) {
             System.err.println("Unable to start server.");

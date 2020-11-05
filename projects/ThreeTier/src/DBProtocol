@@ -1,0 +1,12 @@
+ get # {"artist": "The Civil Wars"}
+  → [{	"title":"Poison and Wine",
+		"artist":"The Civil Wars",
+		"mood":"sad"}]
+
+insert # {"title":"Good Life",
+			 "artist":"One Republic",
+			 "mood":"happy"}
+  → { "result": 1 }
+
+delete # {"artist": "The Civil Wars"}
+  → { "result": 1 }

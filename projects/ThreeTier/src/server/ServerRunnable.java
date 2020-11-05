@@ -19,9 +19,9 @@ public abstract class ServerRunnable implements Runnable {
 	protected Scanner dbScanner;
 	protected PrintWriter dbWriter;
 	
-
-	protected abstract SimpleResponse processGET(SimpleRequest req);
-	protected abstract SimpleResponse processPOST(SimpleRequest req);
+	protected abstract SimpleResponse doGET(SimpleRequest req);
+	protected abstract SimpleResponse doPOST(SimpleRequest req);
+	protected abstract SimpleResponse doDELETE(SimpleRequest req);
 
 	public ServerRunnable(Socket clientSocket, Socket dbSocket) {
 		super();
@@ -44,11 +44,13 @@ public abstract class ServerRunnable implements Runnable {
 		SimpleRequest req = SimpleRequest.fromString(request);
 		switch (req.getMethod()) {
 		case SimpleRequest.GET:
-			return processGET(req);
+			return doGET(req);
 		case SimpleRequest.POST:
-			return processPOST(req);
+			return doPOST(req);
+		case SimpleRequest.DELETE:
+			return doDELETE(req);
 		default:
-			return new SimpleResponse(SimpleResponse.STATUS_BAD_REQUEST, null);
+			return new SimpleResponse(SimpleResponse.STATUS_BAD_REQUEST, "{}");
 		}
 	}
 

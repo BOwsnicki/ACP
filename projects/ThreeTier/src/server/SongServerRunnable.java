@@ -2,6 +2,7 @@ package server;
 
 import java.net.Socket;
 
+import jsonutils.JsonUtils;
 import request.ArgMap;
 import request.SimpleRequest;
 import response.SimpleResponse;
@@ -15,7 +16,7 @@ public class SongServerRunnable extends ServerRunnable {
 	@Override
 	protected SimpleResponse doGET(SimpleRequest request) {
 		// And this is why we have to fix the resource here!
-		if (!request.getResource().equals("song")) {
+		if (!request.getResourcePath()[0].equals("song")) {
 			return new SimpleResponse(SimpleResponse.STATUS_NOTFOUND,"{}");
 		}	
 		// (0#song#mood:angry,artist:Pink) -->
@@ -26,28 +27,42 @@ public class SongServerRunnable extends ServerRunnable {
 		String dbRequest = "get # " + arg.toJSON(); 
 		System.out.println("DB Req: " + dbRequest);	
 		String dbResponse = sendDBQuery(dbRequest);
+		if (request.getResourcePath().length == 2 && 
+			request.getResourcePath()[1].equals("count")) {
+				dbResponse = "{ \"count\": " + JsonUtils.lengthFromString(dbResponse) + "}";
+		}
 		return new SimpleResponse(SimpleResponse.STATUS_OK,dbResponse);
 	}
 
 	@Override
 	protected SimpleResponse doPOST(SimpleRequest request) {
-		if (!request.getResource().equals("song")) {
+		if (!request.getResourcePath()[0].equals("song")) {
 			return new SimpleResponse(SimpleResponse.STATUS_NOTFOUND,"{}");
 		}
+		// (1#song#mood:angry,artist:Body Count,title:Institutionalized) -->
+		// insert # {"title":"Institutionalized", "artist":"Body Count", "mood":"angry"}
 		ArgMap arg = request.getArgMap();
 		System.out.println("POST " + arg);
-		// {"title":"Good Life","artist":"One Republic","mood":"happy"} -->
-		//    insert : {"title":"Good Life","artist":"One Republic","mood":"happy"}
-		String dbRequest = "insert # " + arg;
+		String dbRequest = "insert # " + arg.toJSON();
 		System.out.println("DB Req: " + dbRequest);	
 		String dbResponse = sendDBQuery(dbRequest);
 		return new SimpleResponse(SimpleResponse.STATUS_OK,dbResponse);
 	}
 
 	@Override
-	protected SimpleResponse doDELETE(SimpleRequest req) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	protected SimpleResponse doDELETE(SimpleRequest request) {
+		// And this is why we have to fix the resource here!
+		if (!request.getResourcePath()[0].equals("song")) {
+			return new SimpleResponse(SimpleResponse.STATUS_NOTFOUND,"{}");
+		}	
+		// (2#song#mood:happy) -->
+		// delete # {"mood: "happy"}
+		ArgMap arg = request.getArgMap();
+		System.out.println("DELETE " + arg);
 
+		String dbRequest = "delete # " + arg.toJSON(); 
+		System.out.println("DB Req: " + dbRequest);	
+		String dbResponse = sendDBQuery(dbRequest);
+		return new SimpleResponse(SimpleResponse.STATUS_OK,dbResponse);
+	}
 }

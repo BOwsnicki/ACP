@@ -36,7 +36,7 @@ public class DBRunnable implements Runnable {
 	}
 	
 	private String constructWHERE(String jsonString) {
-		JsonObject attributes = JsonUtils.fromString(jsonString);
+		JsonObject attributes = JsonUtils.objFromString(jsonString);
 		Set<String> keys = attributes.keySet();
 		Iterator<String> keyIterator = keys.iterator();
 		List<String> compares = new ArrayList<>();

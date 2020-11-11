@@ -1,3 +1,7 @@
 (0#song#mood:angry,artist:Pink)
 (1#song#mood:angry,artist:Body Count,title:Institutionalized)
 (2#song#mood:happy)
+
+(0#song/count#mood:angry)
+
+(0#novel#mood:angry,artist:Pink)

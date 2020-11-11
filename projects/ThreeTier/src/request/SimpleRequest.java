@@ -52,6 +52,9 @@ public class SimpleRequest {
 	public String getResource() {
 		return resource;
 	}
+	public String[] getResourcePath() { // return path components "xyz/abc" 
+		return resource.split("/");
+	}
 	public void setResource(String resource) {
 		this.resource = resource;
 	}
@@ -68,7 +71,8 @@ public class SimpleRequest {
 	}
 	
 	public static void main(String[] args) {
-		SimpleRequest sr = new SimpleRequest(SimpleRequest.GET,"song","mood:angry,artist:cher");
+		SimpleRequest sr = new SimpleRequest(SimpleRequest.GET,"songs/count","mood:angry,artist:cher");
+		System.out.println(sr.getResourcePath()[0]);
 		String srep = sr.toString();
 		System.out.println(srep);
 		SimpleRequest sr2 = SimpleRequest.fromString(srep);

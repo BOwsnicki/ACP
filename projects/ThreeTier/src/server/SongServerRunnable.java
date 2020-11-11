@@ -39,6 +39,10 @@ public class SongServerRunnable extends ServerRunnable {
 		if (!request.getResourcePath()[0].equals("song")) {
 			return new SimpleResponse(SimpleResponse.STATUS_NOTFOUND,"{}");
 		}
+		if (request.getResourcePath().length > 1) {
+			return new SimpleResponse(SimpleResponse.STATUS_BAD_REQUEST,"{}");
+		}
+	
 		// (1#song#mood:angry,artist:Body Count,title:Institutionalized) -->
 		// insert # {"title":"Institutionalized", "artist":"Body Count", "mood":"angry"}
 		ArgMap arg = request.getArgMap();
@@ -51,10 +55,12 @@ public class SongServerRunnable extends ServerRunnable {
 
 	@Override
 	protected SimpleResponse doDELETE(SimpleRequest request) {
-		// And this is why we have to fix the resource here!
 		if (!request.getResourcePath()[0].equals("song")) {
 			return new SimpleResponse(SimpleResponse.STATUS_NOTFOUND,"{}");
-		}	
+		}
+		if (request.getResourcePath().length > 1) {
+			return new SimpleResponse(SimpleResponse.STATUS_BAD_REQUEST,"{}");
+		}
 		// (2#song#mood:happy) -->
 		// delete # {"mood: "happy"}
 		ArgMap arg = request.getArgMap();

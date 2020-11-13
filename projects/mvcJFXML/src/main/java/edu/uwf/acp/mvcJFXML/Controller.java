@@ -7,16 +7,14 @@ import javafx.scene.control.Label;
 public class Controller {
 	private Incrementer model = new Incrementer();
 	
-	@FXML Label current;
+	@FXML private Label current;
 	
 	
-    @FXML
-    private void increment1() throws IOException {
+    @FXML private void increment1() {
         current.setText(model.increment(1).toString());
     }
     
-    @FXML
-    private void increment2() throws IOException {
+    @FXML private void increment2() {
         current.setText(model.increment(2).toString());
     }
 }

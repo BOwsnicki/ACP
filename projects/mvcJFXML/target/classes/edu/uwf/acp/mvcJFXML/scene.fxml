@@ -8,8 +8,8 @@
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.uwf.acp.mvcJFXML.Controller">
    <children>
       <Label fx:id="current" text="0" />
-      <Button fx:id="primaryButton" text="+1" onAction="#increment1"/>
-      <Button fx:id="primaryButton" text="+2" onAction="#increment2"/>
+      <Button fx:id="button1" text="+1" onAction="#increment1"/>
+      <Button fx:id="button2" text="+2" onAction="#increment2"/>
    </children>
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

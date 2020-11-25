@@ -19,6 +19,7 @@ public class GameRunnable implements Runnable {
 		this.controller = controller;
 	}
 
+	@Override
 	public void run() {
 		try {
 			in = new Scanner(socket.getInputStream());
@@ -34,7 +35,7 @@ public class GameRunnable implements Runnable {
 		}
 	}
 
-	public void play() throws IOException, InterruptedException {
+	private void play() throws IOException, InterruptedException {
 		while (true) {
 			// if (!in.hasNext())
 			// return;
@@ -50,7 +51,7 @@ public class GameRunnable implements Runnable {
 		}
 	}
 
-	public void sendMsg(String msg) {
+	private void sendMsg(String msg) {
 		out.println(msg);
 		out.flush();
 	}
@@ -74,7 +75,7 @@ public class GameRunnable implements Runnable {
 		}
 	}
 
-	public void executeCommand(String[] command) {
+	private void executeCommand(String[] command) {
 		System.out.println("**Command is [" + command[0] + "]");
 
 		switch (command[0].toLowerCase()) {

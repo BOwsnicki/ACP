@@ -21,8 +21,6 @@ public class GameController {
 	private int[] board = new int[9];
 	private int totalMoves = 0;
 
-	private GameRunnable player;
-
 	public GameController() {
 		gameState = STATE_RUNNING;
 		for (int i = 0; i < 9; i++)
@@ -30,7 +28,6 @@ public class GameController {
 	}
 
 	public void setPlayer(GameRunnable gr) {
-		player = gr;
 	}
 
 	public String boardString() {
@@ -103,6 +100,9 @@ public class GameController {
 		return true;
 	}
 	
+	// That's the AI!!!
+	// Create a legal move for the server
+	// Here: First free square! 
 	public int moveServer() {
 		for (int i = 0; i < 9; i++) {
 			if (board[i] == EMPTY) {

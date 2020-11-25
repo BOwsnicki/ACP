@@ -19,11 +19,6 @@ public class TextClient {
     private String mySymbol;
     private String serverSymbol;
 
-	private static int getInt(String response, int index) {
-		String[] split = response.split(" ");
-		return Integer.parseInt(split[index]);
-	}
-
 	private static String getCmd(String response) {
 		String[] split = response.split(" ");
 		return split[0];

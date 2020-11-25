@@ -13,26 +13,19 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.VPos;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 
 public class App extends Application {
 	private static final String host = "127.0.0.1";
-	private static final int ME = 1;
 	private static final char EMPTY_CHAR = '.';
 	private static final char SERVER_CHAR = '0';
 	private static final char ME_CHAR = '1';
@@ -144,6 +137,7 @@ public class App extends Application {
         
         // 2. Get going
         connected = true;
+        
    		// 2a. Check if we really have game here
    		sendRequest("status");
    		String response = in.readLine();

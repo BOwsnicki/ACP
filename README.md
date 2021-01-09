@@ -9,7 +9,7 @@
 
 **Factories** Factory examples with and without dependency injection
 
-**Generic** Generic Chapter Demos
+**Generic** Generic Chapter Demos (includes variance, type safety and wildcard demos - woefully rudimentary)
 
 **HelloApp** Hello world with associated module
 
@@ -67,17 +67,15 @@
 
 **project5** Makeup P5 (no JavaFX, but JSON)
 
-ReflectDemos
+**ReflectDemos** Reflection demos with modules
 
-Reflection
+Reflection** Reflection demos without modules
 
-ReflectModules
+**ReflectModules** Module protection against reflection
 
-RegEx
+**RegEx** Dozens of weird RegEx examples
 
 Sockets
-
-Testing
 
 Threads
 

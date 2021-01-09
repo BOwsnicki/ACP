@@ -1,7 +1,5 @@
 ## ACP
-Banking
-
-BankingLayered
+**Banking** Hostman CLient/Server Banking packaged
 
 exercise2
 

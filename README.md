@@ -21,7 +21,7 @@
 
 **jfxclients** Trivial JavaFX Client for String Reverse Server
 
-jfxdemos
+**jfxdemos** JavaFX basic demos
 
 jfxfiles
 

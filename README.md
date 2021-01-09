@@ -29,43 +29,41 @@
 
 **JFXHelloSimple** More or less the same as jfxhello (no idea)
 
-jfximages
+**jfximages** JavaFX image demo
 
-jfxlayout
+**jfxlayout** JavaFX Layout manager demo
 
-jfxlayouts
+**jfxlingo** JavaFX Lingo client (rudiment MVC)
 
-jfxlingo
+**JFXLissajous** JavaFX Lissajous curves (my first self-written JavaFX!!!)
 
-JFXLissajous
+**JFXLogin** JavaFX login demo
 
-JFXLogin
+**xlogincss** JavaFX login deme with CSS
 
-jfxlogincss
+**JFXml** JavaFXML preloaded demo
 
-JFXml
+**jfxthreaded** JavaFX Multithreaded Sort Demo
 
-jfxthreaded
+**jfxXMLDemo** Another JavaFXML Demo
 
-jfxXMLDemo
+**MV** Model-View Architecture (SWING, because JavaFXML does this better)
 
-MV
+**MVC** MVC variants
 
-MVC
+**mvcJFXML** JavaFXM MVC demo (much too trivial, sorry!)
 
-mvcJFXML
+**p3** JavaFX Horse race reconstruction (experimental)
 
-p3
+**project1** Project 1 (not really complete)
 
-project1
+**project2** Project 2 (unsurprisingly)
 
-project2
+**project3** No idea
 
-project3
+**project4** Project 4 attemtps at multiplayer TTT (abandoned)
 
-project4
-
-project4SOLO
+**oject4SOLO** Project 4 single player
 
 project5
 

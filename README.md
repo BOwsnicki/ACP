@@ -1,5 +1,5 @@
 ## ACP
-**Banking** Hostman CLient/Server Banking packaged
+**Banking** Horstman CLient/Server Banking packaged
 
 **exercise2** Sketch for Exercise 2
 

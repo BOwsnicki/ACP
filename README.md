@@ -11,15 +11,15 @@
 
 **Generic** Generic Chapter Demos
 
-HelloApp
+**HelloApp** Hello world with associated module
 
-HelloAppNoMod
+**HelloAppNoMod** Hello world without associated module
 
-HelloModule
+**HelloModule** Module for HelloApp
 
-JFXCircles
+**JFXCircles** JavaFX Circles Demo
 
-jfxclients
+**jfxclients** Trivial JavaFX Client for String Reverse Server
 
 jfxdemos
 

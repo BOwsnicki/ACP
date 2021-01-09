@@ -1,15 +1,15 @@
 ## ACP
 **Banking** Hostman CLient/Server Banking packaged
 
-exercise2
+**exercise2** Sketch for Exercise 2
 
-Exercise3
+**Exercise3** Sketch for Exercise 3
 
-Exercise4
+**Exercise4** Sketch for Exercise 4
 
-Factories
+**Factories** Factory examples with and without dependency injection
 
-Generics
+**Generic** Generic Chapter Demos
 
 HelloApp
 

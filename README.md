@@ -63,9 +63,9 @@
 
 **project4** Project 4 attemtps at multiplayer TTT (abandoned)
 
-**oject4SOLO** Project 4 single player
+**project4SOLO** Project 4 single player
 
-project5
+**project5** Makeup P5 (no JavaFX, but JSON)
 
 ReflectDemos
 

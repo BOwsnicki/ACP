@@ -69,20 +69,20 @@
 
 **ReflectDemos** Reflection demos with modules
 
-Reflection** Reflection demos without modules
+**Reflection** Reflection demos without modules
 
 **ReflectModules** Module protection against reflection
 
 **RegEx** Dozens of weird RegEx examples
 
-Sockets
+**Sockets** Basic Socket demos
 
-Threads
+**Threads** Basic Thread demos (including Deadlock demo that actually works occasionally...)
 
-ThreeTier
+**ThreeTier** Pretty bad extension of TwoTier to a include a quite contrived middle Layer
 
-ttt
+**ttt** Simple text client for TTT (forget the App!)
 
-TwoTier
+**TwoTier** Two Tier demo with client and DB layer wrapped in JSON
 
-WebServer
+**WebServer** Single threaded and multi threded web server demo (it actaullay works)

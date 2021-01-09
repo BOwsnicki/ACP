@@ -23,11 +23,11 @@
 
 **jfxdemos** JavaFX basic demos
 
-jfxfiles
+**jfxfiles** JavaFX file selector
 
-JFXHello
+**jfxhello** JavaFX basic interactive Hello World
 
-JFXHelloSimple
+**JFXHelloSimple** More or less the same as jfxhello (no idea)
 
 jfximages
 

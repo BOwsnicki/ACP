@@ -12,10 +12,10 @@ public class ExtendsExample {
 	    return result;
 	}
 	
-	/* KAPUT!
 	private static void addElem(Collection<? extends Number> numbers, Number n) {
 		numbers.add(n);
 	}
+	/*
 	Reason:
 		List<Integer> integers = Arrays.asList(2, 4, 6);
 		Double x = 3.14;

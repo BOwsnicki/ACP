@@ -22,7 +22,7 @@ public class SuperExample {
 	public static void add(Collection<? super Integer> integers, Number x) {
         integers.add(x);
 	}
-	
+	/*
 	And that makes sense WHY? Ok, same thing:
 		List<Integer> integers = Arrays.asList(2, 4, 6);
 		Double x = 3.14;

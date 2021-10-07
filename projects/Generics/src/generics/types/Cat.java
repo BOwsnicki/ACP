@@ -6,7 +6,7 @@ import generics.model.C;
 
 public class Cat extends Animal {
 
-	@Override
-	public void methodA(A arg) {};
+	// @Override
+	// public void methodA(B arg) {};
 
 }

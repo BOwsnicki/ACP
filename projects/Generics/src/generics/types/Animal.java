@@ -4,6 +4,7 @@ import generics.model.A;
 import generics.model.B;
 
 public class Animal {
-	public void methodA(A arg) {};
-	public void methodB(B arg) {};
+	public void methodA(A arg) {}
+	public A methodB() { return null; }
+	public B methodC() { return null; }
 }

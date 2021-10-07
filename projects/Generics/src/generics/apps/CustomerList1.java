@@ -1,12 +1,12 @@
 package generics.apps;
 
-import generics.linkedlist.LinkedList;
-import generics.linkedlist.ListIterator;
+import generics.linkedlist.LinkedListSimple;
+import generics.linkedlist.ListIteratorSimple;
 import generics.model.Customer;
 
 public class CustomerList1 {
 	public static void main(String[] args) {
-		LinkedList<Customer> staff = new LinkedList<Customer>();
+		LinkedListSimple<Customer> staff = new LinkedListSimple<Customer>();
 		staff.addFirst(new Customer("John1", 10));
 		staff.addFirst(new Customer("John2", 20));
 		staff.addFirst(new Customer("John3", 30));
@@ -14,7 +14,7 @@ public class CustomerList1 {
 
 		// | in the comments indicates the iterator position
 
-		ListIterator<Customer> iterator = staff.listIterator(); // |4321
+		ListIteratorSimple<Customer> iterator = staff.listIterator(); // |4321
 		iterator.next(); // 4|321
 		iterator.next(); // 43|21
 

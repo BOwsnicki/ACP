@@ -14,12 +14,16 @@ public class Pair<L,R> {
     
     public String toString()
     {
-      return "L = " + l + " R = " + r;
+      return "(L = " + l + " R = " + r + ")";
     }
     
     public static void main(String[] args)
     {
-      Pair<String,Integer> si = new Pair<String,Integer>("Johnny", 67);
+      Pair<String,Integer> si = new Pair<>("Johnny", 67);
       System.out.println(si);
+
+      Pair<String,Pair<Integer,Integer>> sii =
+    		  new Pair<>("Johnny", new Pair<>(255,404));
+      System.out.println(sii);      
     }
 }

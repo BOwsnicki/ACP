@@ -1,12 +1,12 @@
 package generics.apps;
 
-import generics.linkedlist.LinkedList;
-import generics.linkedlist.ListIterator;
+import generics.linkedlist.LinkedListSimple;
+import generics.linkedlist.ListIteratorSimple;
 
 
 public class StringList {
 	public static void main(String[] args) {
-		LinkedList<String> staff = new LinkedList<>();
+		LinkedListSimple<String> staff = new LinkedListSimple<>();
 		staff.addFirst("Tom");
 		staff.addFirst("Romeo");
 		staff.addFirst("Harry");
@@ -14,7 +14,7 @@ public class StringList {
 		// staff.addFirst(new Integer(10));
 		// | in the comments indicates the iterator position
 
-		ListIterator<String> iterator = staff.listIterator(); // |DHRT
+		ListIteratorSimple<String> iterator = staff.listIterator(); // |DHRT
 		iterator.next(); // D|HRT
 		iterator.next(); // DH|RT
 

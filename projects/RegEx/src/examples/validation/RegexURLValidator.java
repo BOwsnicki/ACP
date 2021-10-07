@@ -8,6 +8,7 @@ public class RegexURLValidator {
 			"https://stackoverflow.com/questions/26078106/system-console-gives-nullpointerexception-in-netbeans/",
 			"https://en.wikipedia.org/wiki/2006_Subway_500#Standings_after_the_race",
 			"localhost:8080/foobar",
+			"http://123.5.499.2/hello",
 			"http://localhost:8080/foobar"
 	};
 

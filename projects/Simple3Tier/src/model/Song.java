@@ -48,11 +48,7 @@ public class Song {
 	private String artist;
 	private String mood;
 	
-	// Factory method!
-	public static Song fromString(String jsonString) {
-		return J2Song.fromJSONString(jsonString);
-	}
-	
+
 	// For decoration atm
 	public int persist(Connection c) throws SQLException {
 		PreparedStatement p = c.prepareStatement("INSERT INTO Songs VALUES (?, ?, ?)");
@@ -87,9 +83,11 @@ public class Song {
 	public void setMood(String mood) {
 		this.mood = mood;
 	}
-
+	
 	@Override
 	public String toString() {
-		return J2Song.toJSONString(this);
+		return "<li> Title: " + title + 
+				", Artist: " + artist +
+				", Mood: " + mood + "</li>";
 	}
 }

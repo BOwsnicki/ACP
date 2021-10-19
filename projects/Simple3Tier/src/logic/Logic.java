@@ -20,7 +20,12 @@ import model.Song;
 @WebServlet("/Logic")
 public class Logic extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String prolog = 
+    		"<!DOCTYPE html><html><head><title>Here they are!</title></head><body><ol>";
+	private static final String epilog = 
+    		"</ol><a href='index.html'>One more?</a></body></html>";
 	private DBServer dbs;
+	
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -41,7 +46,7 @@ public class Logic extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
-        response.setContentType("text/plain");
+        response.setContentType("text/html");
  
         String paramValue = request.getParameter("artist");
         List<Song> result1 = dbs.queryArtist(paramValue);
@@ -54,7 +59,11 @@ public class Logic extends HttpServlet {
         } else {
         	resultFinal = SetOp.union(result1,result2);
         }
-        out.write(resultFinal.toString());
+        out.write(prolog);
+        for (Song s : resultFinal) {
+        	out.write(s.toString());
+        }
+        out.write(epilog);
         out.close();
 	}
 

@@ -1,16 +1,4 @@
-Oct 16, 2020 10:11:45 AM webserver.WebServerThreaded main
-INFO: Request received
-Oct 16, 2020 10:11:52 AM webserver.WebServerThreaded main
-INFO: Request received
-Oct 16, 2020 10:11:52 AM webserver.RequestHandler run
-INFO: Handler-1: GET /direct.jpg HTTP/1.1Host: localhost:8888User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:81.0) Gecko/20100101 Firefox/81.0Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8Accept-Language: en-US,en;q=0.5Accept-Encoding: gzip, deflateConnection: keep-aliveUpgrade-Insecure-Requests: 1Cache-Control: max-age=0
-Oct 16, 2020 10:12:08 AM webserver.WebServerThreaded main
-INFO: Request received
-Oct 16, 2020 10:12:08 AM webserver.RequestHandler run
-INFO: Handler-2: GET /woof.html HTTP/1.1Host: localhost:8888User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:81.0) Gecko/20100101 Firefox/81.0Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8Accept-Language: en-US,en;q=0.5Accept-Encoding: gzip, deflateConnection: keep-aliveUpgrade-Insecure-Requests: 1
-Oct 16, 2020 10:12:08 AM webserver.RequestHandler error
-WARNING: Handler-2: 404 - Not found
-Oct 16, 2020 10:12:47 AM webserver.WebServerThreaded main
-INFO: Request received
-Oct 16, 2020 10:12:47 AM webserver.RequestHandler run
-INFO: Handler-3: GET /index.html HTTP/1.1Host: localhost:8888User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:81.0) Gecko/20100101 Firefox/81.0Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8Accept-Language: en-US,en;q=0.5Accept-Encoding: gzip, deflateConnection: keep-aliveUpgrade-Insecure-Requests: 1
+Oct 27, 2021 4:21:25 PM webserver.RequestHandler run
+INFO: Handler-1: GET /direct.jpg HTTP/1.1Host: localhost:8888User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:93.0) Gecko/20100101 Firefox/93.0Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8Accept-Language: en-US,en;q=0.5Accept-Encoding: gzip, deflateConnection: keep-aliveUpgrade-Insecure-Requests: 1Sec-Fetch-Dest: documentSec-Fetch-Mode: navigateSec-Fetch-Site: noneSec-Fetch-User: ?1
+Oct 27, 2021 4:21:34 PM webserver.RequestHandler run
+INFO: Handler-2: GET /index.html HTTP/1.1Host: localhost:8888User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:93.0) Gecko/20100101 Firefox/93.0Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8Accept-Language: en-US,en;q=0.5Accept-Encoding: gzip, deflateConnection: keep-aliveUpgrade-Insecure-Requests: 1Sec-Fetch-Dest: documentSec-Fetch-Mode: navigateSec-Fetch-Site: noneSec-Fetch-User: ?1

@@ -128,7 +128,7 @@ public class WebServerSingle {
                 String contentType = null;
 
                 if (fileName.endsWith(".html") || fileName.endsWith(".htm")) {
-                    contentType = "Content-Type: text.html\r\n";
+                    contentType = "Content-Type: text/html\r\n";
                 }
 
                 if (fileName.endsWith(".jpg")) {

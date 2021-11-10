@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+<title>Gimme Songs!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+	$(document).ready(
+			function() {
+				$.ajax({
+					type : "GET",
+					url : "http://localhost:8080/webapp/Logic",
+					dataType : "json",
+					success : function(obj) {
+						obj.forEach(function(item, index) {
+							var artist = item.cName;
+							var title = item.title;
+							$('<li></li>').html(title + ' (' + artist + ')')
+									.appendTo('#update-target ol');
+						})
+					}
+				}); //close $.ajax(
+			}); //close $(
+
+			function processForm() {
+				const args = {};
+				
+				$.ajax({
+					type : "GET",
+					url : "http://localhost:8080/webapp/Logic",
+					dataType : "json",
+					success : function(obj) {
+						obj.forEach(function(item, index) {
+							var artist = item.cName;
+							var title = item.title;
+							$('<li></li>').html(title + ' (' + artist + ')')
+									.appendTo('#update-target ol');
+						})
+					}
+				}); //close $.ajax(
+			}); //close $(					
+</script>
+</head>
+<body>
+	<h1>Welcome to AJAX 2</h1>
+
+	<form onsubmit="processForm();">
+
+		<label for="artist">Song artist:</label> <input type="text"
+			id="artist" name="artist"><br> <br> <input
+			type="radio" name="logop" value="and"> AND <input
+			type="radio" name="logop" value="or"> OR<br> <br> <label
+			for="mood">Song mood:</label> <input type="text" id="mood"
+			name="mood"><br> <br> <input type="submit">
+
+	</form>
+
+
+	<div id='update-target'>
+		<ol></ol>
+	</div>
+</body>
+</html>

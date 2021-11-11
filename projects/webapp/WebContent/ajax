@@ -1,0 +1,11 @@
+	function getObj() {
+		$.ajax({
+			type : "GET",
+			url : "http://localhost:8080/webapp/Logic",
+			dataType : "json",
+			success : function(obj) {
+				alert(obj);
+				return obj;
+			}
+		}); //close $.ajax(
+	}

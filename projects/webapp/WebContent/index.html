@@ -6,46 +6,58 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
-	$(document).ready(
-			function() {
-				$.ajax({
-					type : "GET",
-					url : "http://localhost:8080/webapp/Logic",
-					dataType : "json",
-					success : function(obj) {
-						obj.forEach(function(item, index) {
-							var artist = item.cName;
-							var title = item.title;
-							$('<li></li>').html(title + ' (' + artist + ')')
-									.appendTo('#update-target ol');
-						})
-					}
-				}); //close $.ajax(
-			}); //close $(
-
-			function processForm() {
-				const args = {};
-				
-				$.ajax({
-					type : "GET",
-					url : "http://localhost:8080/webapp/Logic",
-					dataType : "json",
-					success : function(obj) {
-						obj.forEach(function(item, index) {
-							var artist = item.cName;
-							var title = item.title;
-							$('<li></li>').html(title + ' (' + artist + ')')
-									.appendTo('#update-target ol');
-						})
-					}
-				}); //close $.ajax(
-			}); //close $(					
+	function clear() {
+		$('#message').empty();
+		$('#results').empty();
+	}
+	function getObj() {
+		$.ajax({
+			beforeSend : function(req) {
+				req.setRequestHeader("Accept", "application/json");
+			},
+			type : "GET",
+			url : "http://localhost:8080/webapp/Logic",
+			dataType : "json",
+			success : function(obj) {
+				alert("ajax " + JSON.stringify(obj));
+				obj.forEach(function(item, index) {
+					var artist = item.artist;
+					var title = item.title;
+					$('<li></li>').html(title + ' (' + artist + ')').appendTo(
+							'#results');
+				})
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				alert(xhr.status);
+				alert(thrownError);
+			}
+		})
+	}
+	function processForm() {
+		// const args = new Object();
+		// var artist = document.getElementById("artist").value;
+		// var mood = document.getElementById("mood").value;
+		// var logop = document.querySelector('input[name="logop"]:checked').value
+		// args.artist = artist;
+		// args.mood = mood;
+		// args.logop = logop;
+		// Read from server
+		getObj();
+		obj.forEach(function(item, index) {
+			var artist = item.artist;
+			var title = item.title;
+			$('<li></li>').html(title + ' (' + artist + ')').appendTo(
+					'#results');
+		})
+		// Don't! Just don't!
+		event.preventDefault();
+	}
 </script>
 </head>
 <body>
-	<h1>Welcome to AJAX 2</h1>
+	<h1>Gimme Songs!</h1>
 
-	<form onsubmit="processForm();">
+	<form action="" onsubmit="processForm(); return false;">
 
 		<label for="artist">Song artist:</label> <input type="text"
 			id="artist" name="artist"><br> <br> <input
@@ -57,8 +69,9 @@
 	</form>
 
 
-	<div id='update-target'>
-		<ol></ol>
+	<div>
+		<h4 id="message"></h4>
+		<ol id="results"></ol>
 	</div>
 </body>
 </html>

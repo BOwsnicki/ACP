@@ -10,45 +10,47 @@
 		$('#message').empty();
 		$('#results').empty();
 	}
-	function getObj() {
+
+	function doAJAX(args) {
 		$.ajax({
 			beforeSend : function(req) {
 				req.setRequestHeader("Accept", "application/json");
 			},
 			type : "GET",
 			url : "http://localhost:8080/webapp/Logic",
+			data : args,
 			dataType : "json",
+			async: false,
 			success : function(obj) {
-				alert("ajax " + JSON.stringify(obj));
+				var found = 0;
 				obj.forEach(function(item, index) {
+					found++;
 					var artist = item.artist;
 					var title = item.title;
-					$('<li></li>').html(title + ' (' + artist + ')').appendTo(
-							'#results');
-				})
+					var mood = item.mood;
+					$('<li></li>').html(artist + ': ' + title + ' (' + mood +')').appendTo('#results');
+				});	
+				$('#message').html("Songs found: " + found);			
 			},
 			error : function(xhr, ajaxOptions, thrownError) {
-				alert(xhr.status);
-				alert(thrownError);
+				alert("error: " + xhr.status);
+				alert("error: " + thrownError);
 			}
 		})
 	}
 	function processForm() {
-		// const args = new Object();
-		// var artist = document.getElementById("artist").value;
-		// var mood = document.getElementById("mood").value;
-		// var logop = document.querySelector('input[name="logop"]:checked').value
-		// args.artist = artist;
-		// args.mood = mood;
-		// args.logop = logop;
+		clear();
+		const args = new Object();
+		var artist = document.getElementById("artist").value;
+		var mood = document.getElementById("mood").value;
+		var logop = document.querySelector('input[name="logop"]:checked').value
+		if (artist != "") args.artist = artist;
+		if (mood != "") args.mood = mood;
+		args.logop = logop;
+		
 		// Read from server
-		getObj();
-		obj.forEach(function(item, index) {
-			var artist = item.artist;
-			var title = item.title;
-			$('<li></li>').html(title + ' (' + artist + ')').appendTo(
-					'#results');
-		})
+		doAJAX(args);
+		
 		// Don't! Just don't!
 		event.preventDefault();
 	}
@@ -61,14 +63,14 @@
 
 		<label for="artist">Song artist:</label> <input type="text"
 			id="artist" name="artist"><br> <br> <input
-			type="radio" name="logop" value="and"> AND <input
+			type="radio" name="logop" value="and" checked> AND <input
 			type="radio" name="logop" value="or"> OR<br> <br> <label
 			for="mood">Song mood:</label> <input type="text" id="mood"
 			name="mood"><br> <br> <input type="submit">
 
 	</form>
 
-
+	<!-- Result section -->
 	<div>
 		<h4 id="message"></h4>
 		<ol id="results"></ol>

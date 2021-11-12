@@ -45,14 +45,14 @@ public class Logic extends HttpServlet {
         	return dao.findAll();
         }
         if (artist != null && mood == null) {
-        	return dao.findWhere("artist = '" + artist + "'");
+        	return dao.findWhere("artist LIKE '" + artist + "'");
         }
         if (artist == null && mood != null) {
-        	return dao.findWhere("mood = '" + mood + "'");
+        	return dao.findWhere("mood LIKE '" + mood + "'");
         }
         String logOp = request.getParameter("logop").toUpperCase();
-        return dao.findWhere("artist = '" + artist + "' " 
-        		+ logOp + " mood = '" + mood + "'");
+        return dao.findWhere("artist LIKE '" + artist + "' " 
+        		+ logOp + " mood LIKE '" + mood + "'");
 	}
 	
 	/**
